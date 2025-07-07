@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "WX6w9ULHwy73ww4gVmDasKFFAeTnspStEKIg4e2Jl1TtwxD0VeCJfj3P0K2TvqYxCvbYBr06VxmlW0N4HU/zpQ==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\milos\\Desktop\\PlanGo App\\server\\Domain\\Domain.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\milos\\.nuget\\packages\\nettopologysuite\\2.6.0\\nettopologysuite.2.6.0.nupkg.sha512"
+  ],
+  "logs": []
+}
