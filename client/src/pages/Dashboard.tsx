@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Sidebar from '../components/Sidebar';
-import TripCard from '../components/TripCard';
 import FilterModal from '../components/FilterModal';
+import { TripCard } from '../types/TripCard';
+import { getAll as getAllTrips } from '../services/TripService';
+import { toast } from 'react-toastify';
 
 const trips = [
   {
@@ -29,6 +31,25 @@ const trips = [
 
 const Dashboard: React.FC = () => {
   const [showFilter, setShowFilter] = useState(false);
+  const [trips, setTrips] = useState<TripCard[]>([])
+  const [loading, setLoading] = useState(true);
+
+
+  useEffect(() => {
+    const fetchTrips = async () => {
+      try {
+        const data = await getAllTrips();
+        setTrips(data);
+        console.log(data)
+      } catch (error) {
+        toast.error("Error: fetchin trips")
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTrips();
+  }, []);
 
   return (
     <div className="flex min-h-screen bg-gray-100">
@@ -48,11 +69,7 @@ const Dashboard: React.FC = () => {
             Filteri
           </button>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {trips.map(trip => (
-            <TripCard key={trip.id} trip={trip} />
-          ))}
-        </div>  
+         
         {showFilter && <FilterModal onClose={() => setShowFilter(false)} />}
       </main>
     </div>

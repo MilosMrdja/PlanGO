@@ -38,15 +38,15 @@ namespace Application.Services
 
         public async Task<TripResponse?> GetById(int id)
         {
-            var userId = _authService.GetCurrentUserId() ?? throw new ApplicationException("Error occured - current user");
+            var userId = _authService.GetCurrentUserId() ?? throw new Exception("Error occured - current user");
             return _tripMapper.toResponseDTO(await _tripRepository.GetFull(id, int.Parse(userId)) ?? new Trip());
         }
         
 
         public async Task<TripResponse> CreateTrip(CreateTripRequest request)
         {
-            if (string.IsNullOrWhiteSpace(request.Title)) { throw new ApplicationException("Title is not valid"); }
-            var id = _authService.GetCurrentUserId() ?? throw new ApplicationException("Error occured - current user");
+            if (string.IsNullOrWhiteSpace(request.Title)) { throw new Exception("Title is not valid"); }
+            var id = _authService.GetCurrentUserId() ?? throw new Exception("Error occured - current user");
             Trip? trip = await _tripRepository.GetByTitle(request.Title, int.Parse(id));
             if (trip != null)
             {

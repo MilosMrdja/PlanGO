@@ -6,8 +6,3 @@ export interface AuthResponse {
     tokenValidityMins: number;
   };
 }
-
-export interface AuthError {
-  message: string;
-  [key: string]: any;
-}

@@ -2,14 +2,21 @@ export const API_BASE_URL = "https://localhost:7249/";
 
 export const apiCall = async (endpoint: string, options: RequestInit = {}) => {
   const url = `${API_BASE_URL}${endpoint}`;
+  const token = localStorage.getItem("accessToken");
+  const headers = new Headers(options.headers || {});
 
-  const config = {
-    headers: {
-      "Content-Type": "application/json",
-      ...(options.headers || {}),
-    },
-    credentials: "include", // Always include cookies
+  if (!headers.has("Content-Type") && !(options.body instanceof FormData)) {
+    headers.set("Content-Type", "application/json");
+  }
+
+  if (token && !headers.has("Authorization")) {
+    headers.set("Authorization", `Bearer ${token}`);
+  }
+
+  const config: RequestInit = {
     ...options,
+    headers,
+    credentials: "include", // cookies
   };
 
   const response = await fetch(url, config as RequestInit);

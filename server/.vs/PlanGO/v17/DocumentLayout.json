@@ -3,56 +3,80 @@
   "WorkspaceRootPath": "C:\\Users\\milos\\Desktop\\PlanGo App\\server\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{1320160F-5383-4881-9690-5DEEB2BCA7CA}|Application\\Application.csproj|C:\\Users\\milos\\Desktop\\PlanGo App\\server\\application\\services\\tripservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1320160F-5383-4881-9690-5DEEB2BCA7CA}|Application\\Application.csproj|solutionrelative:application\\services\\tripservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{058FC283-1EEB-4982-BB85-4B656D1FFE72}|Infrastructure\\Infrastructure.csproj|c:\\users\\milos\\desktop\\plango app\\server\\infrastructure\\repositories\\triprepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{058FC283-1EEB-4982-BB85-4B656D1FFE72}|Infrastructure\\Infrastructure.csproj|solutionrelative:infrastructure\\repositories\\triprepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{94B730A7-F29E-4EAF-8E15-C117C8F0C7A8}|Api\\Api.csproj|C:\\Users\\milos\\Desktop\\PlanGo App\\server\\api\\controllers\\tripcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{94B730A7-F29E-4EAF-8E15-C117C8F0C7A8}|Api\\Api.csproj|solutionrelative:api\\controllers\\tripcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1320160F-5383-4881-9690-5DEEB2BCA7CA}|Application\\Application.csproj|c:\\users\\milos\\desktop\\plango app\\server\\application\\dtos\\tripactivityresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1320160F-5383-4881-9690-5DEEB2BCA7CA}|Application\\Application.csproj|solutionrelative:application\\dtos\\tripactivityresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1320160F-5383-4881-9690-5DEEB2BCA7CA}|Application\\Application.csproj|c:\\users\\milos\\desktop\\plango app\\server\\application\\dtos\\tripresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1320160F-5383-4881-9690-5DEEB2BCA7CA}|Application\\Application.csproj|solutionrelative:application\\dtos\\tripresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1320160F-5383-4881-9690-5DEEB2BCA7CA}|Application\\Application.csproj|c:\\users\\milos\\desktop\\plango app\\server\\application\\dtos\\imageresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1320160F-5383-4881-9690-5DEEB2BCA7CA}|Application\\Application.csproj|solutionrelative:application\\dtos\\imageresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1320160F-5383-4881-9690-5DEEB2BCA7CA}|Application\\Application.csproj|c:\\users\\milos\\desktop\\plango app\\server\\application\\dtos\\ratingresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1320160F-5383-4881-9690-5DEEB2BCA7CA}|Application\\Application.csproj|solutionrelative:application\\dtos\\ratingresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1320160F-5383-4881-9690-5DEEB2BCA7CA}|Application\\Application.csproj|c:\\users\\milos\\desktop\\plango app\\server\\application\\dtos\\locationdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1320160F-5383-4881-9690-5DEEB2BCA7CA}|Application\\Application.csproj|solutionrelative:application\\dtos\\locationdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{94B730A7-F29E-4EAF-8E15-C117C8F0C7A8}|Api\\Api.csproj|c:\\users\\milos\\desktop\\plango app\\server\\api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{94B730A7-F29E-4EAF-8E15-C117C8F0C7A8}|Api\\Api.csproj|solutionrelative:api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{94B730A7-F29E-4EAF-8E15-C117C8F0C7A8}|Api\\Api.csproj|c:\\users\\milos\\desktop\\plango app\\server\\api\\middleware\\exceptionmiddleware.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{94B730A7-F29E-4EAF-8E15-C117C8F0C7A8}|Api\\Api.csproj|solutionrelative:api\\middleware\\exceptionmiddleware.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{94B730A7-F29E-4EAF-8E15-C117C8F0C7A8}|Api\\Api.csproj|c:\\users\\milos\\desktop\\plango app\\server\\api\\controllers\\tripcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{94B730A7-F29E-4EAF-8E15-C117C8F0C7A8}|Api\\Api.csproj|solutionrelative:api\\controllers\\tripcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{058FC283-1EEB-4982-BB85-4B656D1FFE72}|Infrastructure\\Infrastructure.csproj|c:\\users\\milos\\desktop\\plango app\\server\\infrastructure\\repositories\\ratingrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{058FC283-1EEB-4982-BB85-4B656D1FFE72}|Infrastructure\\Infrastructure.csproj|solutionrelative:infrastructure\\repositories\\ratingrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{94B730A7-F29E-4EAF-8E15-C117C8F0C7A8}|Api\\Api.csproj|c:\\users\\milos\\desktop\\plango app\\server\\api\\controllers\\tripactivitycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{94B730A7-F29E-4EAF-8E15-C117C8F0C7A8}|Api\\Api.csproj|solutionrelative:api\\controllers\\tripactivitycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1320160F-5383-4881-9690-5DEEB2BCA7CA}|Application\\Application.csproj|c:\\users\\milos\\desktop\\plango app\\server\\application\\services\\ratingservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1320160F-5383-4881-9690-5DEEB2BCA7CA}|Application\\Application.csproj|solutionrelative:application\\services\\ratingservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{94B730A7-F29E-4EAF-8E15-C117C8F0C7A8}|Api\\Api.csproj|c:\\users\\milos\\desktop\\plango app\\server\\api\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{94B730A7-F29E-4EAF-8E15-C117C8F0C7A8}|Api\\Api.csproj|C:\\Users\\milos\\Desktop\\PlanGo App\\server\\api\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{94B730A7-F29E-4EAF-8E15-C117C8F0C7A8}|Api\\Api.csproj|solutionrelative:api\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1320160F-5383-4881-9690-5DEEB2BCA7CA}|Application\\Application.csproj|c:\\users\\milos\\desktop\\plango app\\server\\application\\services\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1320160F-5383-4881-9690-5DEEB2BCA7CA}|Application\\Application.csproj|solutionrelative:application\\services\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{94B730A7-F29E-4EAF-8E15-C117C8F0C7A8}|Api\\Api.csproj|c:\\users\\milos\\desktop\\plango app\\server\\api\\controllers\\validatecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{94B730A7-F29E-4EAF-8E15-C117C8F0C7A8}|Api\\Api.csproj|solutionrelative:api\\controllers\\validatecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1320160F-5383-4881-9690-5DEEB2BCA7CA}|Application\\Application.csproj|c:\\users\\milos\\desktop\\plango app\\server\\application\\services\\imageservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{1320160F-5383-4881-9690-5DEEB2BCA7CA}|Application\\Application.csproj|C:\\Users\\milos\\Desktop\\PlanGo App\\server\\application\\utils\\apiresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1320160F-5383-4881-9690-5DEEB2BCA7CA}|Application\\Application.csproj|solutionrelative:application\\utils\\apiresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{94B730A7-F29E-4EAF-8E15-C117C8F0C7A8}|Api\\Api.csproj|C:\\Users\\milos\\Desktop\\PlanGo App\\server\\api\\middleware\\exceptionmiddleware.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{94B730A7-F29E-4EAF-8E15-C117C8F0C7A8}|Api\\Api.csproj|solutionrelative:api\\middleware\\exceptionmiddleware.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1320160F-5383-4881-9690-5DEEB2BCA7CA}|Application\\Application.csproj|C:\\Users\\milos\\Desktop\\PlanGo App\\server\\application\\services\\imageservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1320160F-5383-4881-9690-5DEEB2BCA7CA}|Application\\Application.csproj|solutionrelative:application\\services\\imageservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1320160F-5383-4881-9690-5DEEB2BCA7CA}|Application\\Application.csproj|c:\\users\\milos\\desktop\\plango app\\server\\application\\services\\locationservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{1320160F-5383-4881-9690-5DEEB2BCA7CA}|Application\\Application.csproj|C:\\Users\\milos\\Desktop\\PlanGo App\\server\\application\\services\\locationservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1320160F-5383-4881-9690-5DEEB2BCA7CA}|Application\\Application.csproj|solutionrelative:application\\services\\locationservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1320160F-5383-4881-9690-5DEEB2BCA7CA}|Application\\Application.csproj|c:\\users\\milos\\desktop\\plango app\\server\\application\\services\\tripactivityservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{1320160F-5383-4881-9690-5DEEB2BCA7CA}|Application\\Application.csproj|C:\\Users\\milos\\Desktop\\PlanGo App\\server\\application\\services\\ratingservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1320160F-5383-4881-9690-5DEEB2BCA7CA}|Application\\Application.csproj|solutionrelative:application\\services\\ratingservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1320160F-5383-4881-9690-5DEEB2BCA7CA}|Application\\Application.csproj|C:\\Users\\milos\\Desktop\\PlanGo App\\server\\application\\services\\tripactivityservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1320160F-5383-4881-9690-5DEEB2BCA7CA}|Application\\Application.csproj|solutionrelative:application\\services\\tripactivityservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1320160F-5383-4881-9690-5DEEB2BCA7CA}|Application\\Application.csproj|c:\\users\\milos\\desktop\\plango app\\server\\application\\services\\tripservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1320160F-5383-4881-9690-5DEEB2BCA7CA}|Application\\Application.csproj|solutionrelative:application\\services\\tripservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{94B730A7-F29E-4EAF-8E15-C117C8F0C7A8}|Api\\Api.csproj|C:\\Users\\milos\\Desktop\\PlanGo App\\server\\api\\controllers\\tripactivitycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{94B730A7-F29E-4EAF-8E15-C117C8F0C7A8}|Api\\Api.csproj|solutionrelative:api\\controllers\\tripactivitycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1320160F-5383-4881-9690-5DEEB2BCA7CA}|Application\\Application.csproj|c:\\users\\milos\\desktop\\plango app\\server\\application\\utils\\apiresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1320160F-5383-4881-9690-5DEEB2BCA7CA}|Application\\Application.csproj|solutionrelative:application\\utils\\apiresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{058FC283-1EEB-4982-BB85-4B656D1FFE72}|Infrastructure\\Infrastructure.csproj|C:\\Users\\milos\\Desktop\\PlanGo App\\server\\infrastructure\\repositories\\ratingrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{058FC283-1EEB-4982-BB85-4B656D1FFE72}|Infrastructure\\Infrastructure.csproj|solutionrelative:infrastructure\\repositories\\ratingrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -62,32 +86,62 @@
       "DocumentGroups": [
         {
           "DockedWidth": 1443,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 6,
           "Children": [
             {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\milos\\Desktop\\PlanGo App\\server\\Api\\Program.cs",
-              "RelativeDocumentMoniker": "Api\\Program.cs",
-              "ToolTip": "C:\\Users\\milos\\Desktop\\PlanGo App\\server\\Api\\Program.cs",
-              "RelativeToolTip": "Api\\Program.cs",
-              "ViewState": "AQIAAEwAAAAAAAAAAAAmwGMAAAAAAAAA",
+              "DocumentIndex": 3,
+              "Title": "TripActivityResponse.cs",
+              "DocumentMoniker": "C:\\Users\\milos\\Desktop\\PlanGo App\\server\\Application\\DTOs\\TripActivityResponse.cs",
+              "RelativeDocumentMoniker": "Application\\DTOs\\TripActivityResponse.cs",
+              "ToolTip": "C:\\Users\\milos\\Desktop\\PlanGo App\\server\\Application\\DTOs\\TripActivityResponse.cs",
+              "RelativeToolTip": "Application\\DTOs\\TripActivityResponse.cs",
+              "ViewState": "AQIAAAYAAAAAAAAAAAAAABcAAAAhAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-07T13:31:34.348Z",
+              "WhenOpened": "2025-07-08T09:22:56.354Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "ExceptionMiddleware.cs",
-              "DocumentMoniker": "C:\\Users\\milos\\Desktop\\PlanGo App\\server\\Api\\Middleware\\ExceptionMiddleware.cs",
-              "RelativeDocumentMoniker": "Api\\Middleware\\ExceptionMiddleware.cs",
-              "ToolTip": "C:\\Users\\milos\\Desktop\\PlanGo App\\server\\Api\\Middleware\\ExceptionMiddleware.cs",
-              "RelativeToolTip": "Api\\Middleware\\ExceptionMiddleware.cs",
-              "ViewState": "AQIAAAYAAAAAAAAAAIA0wB8AAAABAAAA",
+              "DocumentIndex": 6,
+              "Title": "RatingResponse.cs",
+              "DocumentMoniker": "C:\\Users\\milos\\Desktop\\PlanGo App\\server\\Application\\DTOs\\RatingResponse.cs",
+              "RelativeDocumentMoniker": "Application\\DTOs\\RatingResponse.cs",
+              "ToolTip": "C:\\Users\\milos\\Desktop\\PlanGo App\\server\\Application\\DTOs\\RatingResponse.cs",
+              "RelativeToolTip": "Application\\DTOs\\RatingResponse.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-07T13:27:05.231Z",
+              "WhenOpened": "2025-07-08T09:18:45.177Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "ImageResponse.cs",
+              "DocumentMoniker": "C:\\Users\\milos\\Desktop\\PlanGo App\\server\\Application\\DTOs\\ImageResponse.cs",
+              "RelativeDocumentMoniker": "Application\\DTOs\\ImageResponse.cs",
+              "ToolTip": "C:\\Users\\milos\\Desktop\\PlanGo App\\server\\Application\\DTOs\\ImageResponse.cs",
+              "RelativeToolTip": "Application\\DTOs\\ImageResponse.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-08T09:17:13.6Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "TripResponse.cs",
+              "DocumentMoniker": "C:\\Users\\milos\\Desktop\\PlanGo App\\server\\Application\\DTOs\\TripResponse.cs",
+              "RelativeDocumentMoniker": "Application\\DTOs\\TripResponse.cs",
+              "ToolTip": "C:\\Users\\milos\\Desktop\\PlanGo App\\server\\Application\\DTOs\\TripResponse.cs",
+              "RelativeToolTip": "Application\\DTOs\\TripResponse.cs",
+              "ViewState": "AQIAAAYAAAAAAAAAAAAAABYAAAAbAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-08T09:16:18.727Z",
               "EditorCaption": ""
             },
             {
@@ -98,66 +152,79 @@
               "RelativeDocumentMoniker": "Api\\Controllers\\TripController.cs",
               "ToolTip": "C:\\Users\\milos\\Desktop\\PlanGo App\\server\\Api\\Controllers\\TripController.cs",
               "RelativeToolTip": "Api\\Controllers\\TripController.cs",
-              "ViewState": "AQIAACoAAAAAAAAAAAAMwDoAAAAuAAAA",
+              "ViewState": "AQIAAA0AAAAAAAAAAAAlwBoAAAA0AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-07-07T13:26:52.778Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "RatingRepository.cs",
-              "DocumentMoniker": "C:\\Users\\milos\\Desktop\\PlanGo App\\server\\Infrastructure\\Repositories\\RatingRepository.cs",
-              "RelativeDocumentMoniker": "Infrastructure\\Repositories\\RatingRepository.cs",
-              "ToolTip": "C:\\Users\\milos\\Desktop\\PlanGo App\\server\\Infrastructure\\Repositories\\RatingRepository.cs",
-              "RelativeToolTip": "Infrastructure\\Repositories\\RatingRepository.cs",
-              "ViewState": "AQIAAAMAAAAAAAAAAAAAABEAAAA4AAAA",
+              "DocumentIndex": 0,
+              "Title": "TripService.cs",
+              "DocumentMoniker": "C:\\Users\\milos\\Desktop\\PlanGo App\\server\\Application\\Services\\TripService.cs",
+              "RelativeDocumentMoniker": "Application\\Services\\TripService.cs",
+              "ToolTip": "C:\\Users\\milos\\Desktop\\PlanGo App\\server\\Application\\Services\\TripService.cs",
+              "RelativeToolTip": "Application\\Services\\TripService.cs",
+              "ViewState": "AQIAALoAAAAAAAAAAAAMwM4AAAAMAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-07T13:26:48.327Z",
+              "WhenOpened": "2025-07-07T13:24:57.672Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "TripActivityController.cs",
-              "DocumentMoniker": "C:\\Users\\milos\\Desktop\\PlanGo App\\server\\Api\\Controllers\\TripActivityController.cs",
-              "RelativeDocumentMoniker": "Api\\Controllers\\TripActivityController.cs",
-              "ToolTip": "C:\\Users\\milos\\Desktop\\PlanGo App\\server\\Api\\Controllers\\TripActivityController.cs",
-              "RelativeToolTip": "Api\\Controllers\\TripActivityController.cs",
-              "ViewState": "AQIAADgAAAAAAAAAAAAWwEkAAAA2AAAA",
+              "DocumentIndex": 1,
+              "Title": "TripRepository.cs",
+              "DocumentMoniker": "C:\\Users\\milos\\Desktop\\PlanGo App\\server\\Infrastructure\\Repositories\\TripRepository.cs",
+              "RelativeDocumentMoniker": "Infrastructure\\Repositories\\TripRepository.cs",
+              "ToolTip": "C:\\Users\\milos\\Desktop\\PlanGo App\\server\\Infrastructure\\Repositories\\TripRepository.cs",
+              "RelativeToolTip": "Infrastructure\\Repositories\\TripRepository.cs",
+              "ViewState": "AQIAAA8AAAAAAAAAAAAcwBYAAAAMAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-07T13:26:47.405Z",
+              "WhenOpened": "2025-07-08T09:44:49.483Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
+              "Title": "LocationDTO.cs",
+              "DocumentMoniker": "C:\\Users\\milos\\Desktop\\PlanGo App\\server\\Application\\DTOs\\LocationDTO.cs",
+              "RelativeDocumentMoniker": "Application\\DTOs\\LocationDTO.cs",
+              "ToolTip": "C:\\Users\\milos\\Desktop\\PlanGo App\\server\\Application\\DTOs\\LocationDTO.cs",
+              "RelativeToolTip": "Application\\DTOs\\LocationDTO.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAAfAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-08T09:17:18.664Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
               "Title": "AuthController.cs",
               "DocumentMoniker": "C:\\Users\\milos\\Desktop\\PlanGo App\\server\\Api\\Controllers\\AuthController.cs",
               "RelativeDocumentMoniker": "Api\\Controllers\\AuthController.cs",
               "ToolTip": "C:\\Users\\milos\\Desktop\\PlanGo App\\server\\Api\\Controllers\\AuthController.cs",
               "RelativeToolTip": "Api\\Controllers\\AuthController.cs",
-              "ViewState": "AQIAABMAAAAAAAAAAAAWwCQAAAAuAAAA",
+              "ViewState": "AQIAAB4AAAAAAAAAAAAewCoAAABFAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-07-07T13:26:37.189Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "ImageService.cs",
-              "DocumentMoniker": "C:\\Users\\milos\\Desktop\\PlanGo App\\server\\Application\\Services\\ImageService.cs",
-              "RelativeDocumentMoniker": "Application\\Services\\ImageService.cs",
-              "ToolTip": "C:\\Users\\milos\\Desktop\\PlanGo App\\server\\Application\\Services\\ImageService.cs",
-              "RelativeToolTip": "Application\\Services\\ImageService.cs",
-              "ViewState": "AQIAACoAAAAAAAAAAAAMwDoAAABcAAAA",
+              "DocumentIndex": 10,
+              "Title": "ValidateController.cs",
+              "DocumentMoniker": "C:\\Users\\milos\\Desktop\\PlanGo App\\server\\Api\\Controllers\\ValidateController.cs",
+              "RelativeDocumentMoniker": "Api\\Controllers\\ValidateController.cs",
+              "ToolTip": "C:\\Users\\milos\\Desktop\\PlanGo App\\server\\Api\\Controllers\\ValidateController.cs",
+              "RelativeToolTip": "Api\\Controllers\\ValidateController.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAuwAcAAABEAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-07T13:26:04.624Z",
+              "WhenOpened": "2025-07-08T08:30:22.467Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 14,
               "Title": "LocationServices.cs",
               "DocumentMoniker": "C:\\Users\\milos\\Desktop\\PlanGo App\\server\\Application\\Services\\LocationServices.cs",
               "RelativeDocumentMoniker": "Application\\Services\\LocationServices.cs",
@@ -170,7 +237,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 15,
               "Title": "RatingService.cs",
               "DocumentMoniker": "C:\\Users\\milos\\Desktop\\PlanGo App\\server\\Application\\Services\\RatingService.cs",
               "RelativeDocumentMoniker": "Application\\Services\\RatingService.cs",
@@ -183,7 +250,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 16,
               "Title": "TripActivityService.cs",
               "DocumentMoniker": "C:\\Users\\milos\\Desktop\\PlanGo App\\server\\Application\\Services\\TripActivityService.cs",
               "RelativeDocumentMoniker": "Application\\Services\\TripActivityService.cs",
@@ -195,47 +262,81 @@
               "EditorCaption": ""
             },
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
-            },
-            {
               "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "TripService.cs",
-              "DocumentMoniker": "C:\\Users\\milos\\Desktop\\PlanGo App\\server\\Application\\Services\\TripService.cs",
-              "RelativeDocumentMoniker": "Application\\Services\\TripService.cs",
-              "ToolTip": "C:\\Users\\milos\\Desktop\\PlanGo App\\server\\Application\\Services\\TripService.cs",
-              "RelativeToolTip": "Application\\Services\\TripService.cs",
-              "ViewState": "AQIAABYAAAAAAAAAAAAtwEEAAAAJAAAA",
+              "DocumentIndex": 8,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\milos\\Desktop\\PlanGo App\\server\\Api\\Program.cs",
+              "RelativeDocumentMoniker": "Api\\Program.cs",
+              "ToolTip": "C:\\Users\\milos\\Desktop\\PlanGo App\\server\\Api\\Program.cs",
+              "RelativeToolTip": "Api\\Program.cs",
+              "ViewState": "AQIAAEoAAAAAAAAAAAAmwFkAAAAzAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-07T13:24:57.672Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "AuthService.cs",
-              "DocumentMoniker": "C:\\Users\\milos\\Desktop\\PlanGo App\\server\\Application\\Services\\AuthService.cs",
-              "RelativeDocumentMoniker": "Application\\Services\\AuthService.cs",
-              "ToolTip": "C:\\Users\\milos\\Desktop\\PlanGo App\\server\\Application\\Services\\AuthService.cs",
-              "RelativeToolTip": "Application\\Services\\AuthService.cs",
-              "ViewState": "AQIAABsAAAAAAAAAAIAwwCoAAAAjAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-07T13:24:30.556Z",
+              "WhenOpened": "2025-07-07T13:31:34.348Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 12,
+              "Title": "ExceptionMiddleware.cs",
+              "DocumentMoniker": "C:\\Users\\milos\\Desktop\\PlanGo App\\server\\Api\\Middleware\\ExceptionMiddleware.cs",
+              "RelativeDocumentMoniker": "Api\\Middleware\\ExceptionMiddleware.cs",
+              "ToolTip": "C:\\Users\\milos\\Desktop\\PlanGo App\\server\\Api\\Middleware\\ExceptionMiddleware.cs",
+              "RelativeToolTip": "Api\\Middleware\\ExceptionMiddleware.cs",
+              "ViewState": "AQIAAAcAAAAAAAAAAAAMwBgAAAANAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-07T13:27:05.231Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "ImageService.cs",
+              "DocumentMoniker": "C:\\Users\\milos\\Desktop\\PlanGo App\\server\\Application\\Services\\ImageService.cs",
+              "RelativeDocumentMoniker": "Application\\Services\\ImageService.cs",
+              "ToolTip": "C:\\Users\\milos\\Desktop\\PlanGo App\\server\\Application\\Services\\ImageService.cs",
+              "RelativeToolTip": "Application\\Services\\ImageService.cs",
+              "ViewState": "AQIAACoAAAAAAAAAAAAMwDoAAABcAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-07T13:26:04.624Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
               "Title": "ApiResponse.cs",
               "DocumentMoniker": "C:\\Users\\milos\\Desktop\\PlanGo App\\server\\Application\\utils\\ApiResponse.cs",
               "RelativeDocumentMoniker": "Application\\utils\\ApiResponse.cs",
               "ToolTip": "C:\\Users\\milos\\Desktop\\PlanGo App\\server\\Application\\utils\\ApiResponse.cs",
               "RelativeToolTip": "Application\\utils\\ApiResponse.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAAAaAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-07-07T13:24:47.444Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "TripActivityController.cs",
+              "DocumentMoniker": "C:\\Users\\milos\\Desktop\\PlanGo App\\server\\Api\\Controllers\\TripActivityController.cs",
+              "RelativeDocumentMoniker": "Api\\Controllers\\TripActivityController.cs",
+              "ToolTip": "C:\\Users\\milos\\Desktop\\PlanGo App\\server\\Api\\Controllers\\TripActivityController.cs",
+              "RelativeToolTip": "Api\\Controllers\\TripActivityController.cs",
+              "ViewState": "AQIAADsAAAAAAAAAAAAWwCgAAAA+AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-07T13:26:47.405Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "RatingRepository.cs",
+              "DocumentMoniker": "C:\\Users\\milos\\Desktop\\PlanGo App\\server\\Infrastructure\\Repositories\\RatingRepository.cs",
+              "RelativeDocumentMoniker": "Infrastructure\\Repositories\\RatingRepository.cs",
+              "ToolTip": "C:\\Users\\milos\\Desktop\\PlanGo App\\server\\Infrastructure\\Repositories\\RatingRepository.cs",
+              "RelativeToolTip": "Infrastructure\\Repositories\\RatingRepository.cs",
+              "ViewState": "AQIAAAMAAAAAAAAAAAAAABEAAAA4AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-07T13:26:48.327Z"
             }
           ]
         }

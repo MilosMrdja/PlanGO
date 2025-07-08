@@ -25,7 +25,7 @@ namespace Api.Middleware
             {
                 context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 await context.Response.WriteAsJsonAsync(new { status=  "error", 
-                    error = ex.Message });
+                    message = ex.Message });
             }
         }
     }

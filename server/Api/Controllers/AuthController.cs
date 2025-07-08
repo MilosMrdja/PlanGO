@@ -9,7 +9,7 @@ namespace Api.Controllers
 {
     [ApiController]
     [Route("api/auth")]
-    public class AuthController : ControllerBase
+    public class AuthController : ValidateController
     {
         private readonly AuthService _authService;
         public AuthController(AuthService authService, IHttpContextAccessor httpContextAccessor)
@@ -32,7 +32,7 @@ namespace Api.Controllers
         public async Task<IActionResult> Register([FromBody] RegisterRequest request)
         {
             if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+                return HandleInvalidModelStateSingleMessage();
 
             var response = await _authService.Register(request);
 
@@ -43,7 +43,7 @@ namespace Api.Controllers
         public async Task<IActionResult> Login([FromBody]LoginRequest loginDto)
         {
             if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+                return HandleInvalidModelStateSingleMessage();
             var response = await _authService.Login(loginDto);
 
             if (response == null)

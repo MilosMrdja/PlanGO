@@ -1,5 +1,5 @@
 import { apiCall } from "./api";
-import type { AuthResponse } from "../types/api";
+import type { AuthResponse } from "../types/AuthResponse";
 
 export const login = async (
   email: string,
@@ -18,7 +18,7 @@ export const register = async (
   lastName: string,
   age: number
 ): Promise<AuthResponse> => {
-  return apiCall("/api/auth/register", {
+  return apiCall("api/auth/register", {
     method: "POST",
     body: JSON.stringify({ email, password, firstName, lastName, age }),
   });

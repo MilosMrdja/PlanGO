@@ -12,7 +12,7 @@ namespace Api.Controllers
     [Route("api/trips")]
     [ApiController]
     [Authorize]
-    public class TripController : ControllerBase
+    public class TripController : ValidateController
     {
         private readonly TripService _tripService;
 
@@ -42,7 +42,7 @@ namespace Api.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return HandleInvalidModelStateSingleMessage();
             }
             var response = await _tripService.StartTrip(id, request);
 
@@ -54,7 +54,7 @@ namespace Api.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return HandleInvalidModelStateSingleMessage();
             }
             var response = await _tripService.FinishTrip(id, request);
 
@@ -65,7 +65,7 @@ namespace Api.Controllers
         public async Task<IActionResult> CreateTrip([FromBody]CreateTripRequest request)
         {
             if(!ModelState.IsValid){
-                return BadRequest(ModelState);
+                return HandleInvalidModelStateSingleMessage();
             }
             var response = await _tripService.CreateTrip(request);
 
@@ -76,7 +76,7 @@ namespace Api.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateTrip(int id, [FromForm] UpdateTripRequest request)
         {
-            if (!ModelState.IsValid) { return BadRequest(ModelState); }
+            if (!ModelState.IsValid) { return HandleInvalidModelStateSingleMessage(); }
 
             var response = await _tripService.UpdateTrip(id,request);
 

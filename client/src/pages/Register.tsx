@@ -1,7 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { register as registerUser } from '../services/auth';
-import type { AuthResponse } from '../types/api';
+import type { AuthResponse } from '../types/AuthResponse';
+import H1 from '../components/UI/H1';
+import H2 from '../components/UI/H2';
+import { toast } from 'react-toastify';
+import {useAuth} from '../AuthProvider'
+import TextInput from '../components/UI/TextInput';
 
 // Register stranica: korisnik unosi podatke za registraciju
 // Bitno: validacija podataka pre slanja na backend
@@ -11,30 +16,25 @@ const Register: React.FC = () => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [age, setAge] = useState<number | ''>('');
-  const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState<string | null>(null);
   const navigate = useNavigate();
+  const {login} = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError(null);
-    setSuccess(null);
     try {
       const response = await registerUser(email, password, firstName, lastName, Number(age)) as AuthResponse;
-      if (response.status === 'success') {
-        setSuccess('Registration successful! Redirecting to login...');
-        setTimeout(() => navigate('/'), 1500);
-      } else {
-        setError('Registration failed.');
-      }
+      login(response.data.accessToken);
+      toast.success('You successfully created an account!');
+      setTimeout(() => navigate('/dashboard'), 1500);
+     
     } catch (err: any) {
-      setError(err.message || 'Registration failed.');
+      toast.error(err.message)
     }
   };
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-        <h1 className="text-4xl font-extrabold text-amber-800 mb-8">Plan & Go</h1>
+        <H1>Plan & Go</H1>
         <div className="flex w-full max-w-3xl bg-white rounded-lg shadow-lg overflow-hidden">
         <div className="w-1/2">
               <img
@@ -44,63 +44,53 @@ const Register: React.FC = () => {
               />
             </div>
             <div className="w-1/2 p-8">
-            <h2 className="text-2xl font-bold mb-6 text-center text-amber-800">Registration</h2>
+            <H2>Registration</H2>
         <form onSubmit={handleSubmit} className="space-y-4">
-          {error && (
-            <div className="text-red-600 text-center mb-2">{error}</div>
-          )}
-          {success && (
-            <div className="text-green-600 text-center mb-2">{success}</div>
-          )}
+          
           <div>
-            <label className="block mb-1 font-medium text-gray-700">Email:</label>
-            <input
-              type="email"
-              value={email}
-              onChange={e => setEmail(e.target.value)}
-              required
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+            <TextInput
+            label='Email:'
+            type='email'
+            value={email}
+            onChange={e => setEmail(e.target.value)}
+            required
             />
           </div>
           <div>
-            <label className="block mb-1 font-medium text-gray-700">Password:</label>
-            <input
-              type="password"
-              value={password}
-              onChange={e => setPassword(e.target.value)}
-              required
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+            <TextInput
+            type='password'
+            label='Password:'
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+            required
             />
           </div>
           <div>
-            <label className="block mb-1 font-medium text-gray-700">Name:</label>
-            <input
-              type="text"
-              value={firstName}
-              onChange={e => setFirstName(e.target.value)}
-              required
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+          <TextInput
+            label='Name:'
+            type='text'
+            value={firstName}
+            onChange={e => setFirstName(e.target.value)}
+            required
             />
           </div>
           <div>
-            <label className="block mb-1 font-medium text-gray-700">Last name:</label>
-            <input
-              type="text"
-              value={lastName}
-              onChange={e => setLastName(e.target.value)}
-              required
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+            <TextInput
+            label='Last name:'
+            type='text'
+            value={lastName}
+            onChange={e => setLastName(e.target.value)}
+            required
             />
           </div>
           <div>
-            <label className="block mb-1 font-medium text-gray-700">Age:</label>
-            <input
-              type="number"
-              value={age}
-              onChange={e => setAge(Number(e.target.value))}
-              min={1}
-              required
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+            <TextInput
+            label='Age:'
+            type='number'
+            value={age}
+            min={1}
+            required
+            onChange={e => setAge(Number(e.target.value))}
             />
           </div>
           <button

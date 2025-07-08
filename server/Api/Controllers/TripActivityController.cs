@@ -10,7 +10,7 @@ namespace Api.Controllers
     [Route("api/trip_activities")]
     [ApiController]
     [Authorize]
-    public class TripActivityController : ControllerBase
+    public class TripActivityController : ValidateController
     {
         private readonly TripActivityService _tripActivityService;
 
@@ -38,7 +38,7 @@ namespace Api.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return HandleInvalidModelStateSingleMessage();
             }
             var response = await _tripActivityService.Create(request);
             return Ok(new ApiResponse<TripActivityResponse>(response));
