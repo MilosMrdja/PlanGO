@@ -1,28 +1,26 @@
-import React, { useEffect, useState } from 'react';
-import Sidebar from '../components/Sidebar';
-import FilterModal from '../components/FilterModal';
-import { TripCard as TripCardResponse} from '../types/TripCard';
-import { getAll as getAllTrips } from '../services/TripService';
-import { toast } from 'react-toastify';
-import TripCard from '../components/TripCard';
-import { Routes, Route } from 'react-router-dom';
-import TripDetails from './TripDetails';
-
+import React, { useEffect, useState } from "react";
+import Sidebar from "../components/Sidebar";
+import FilterModal from "../components/FilterModal";
+import { TripCard as TripCardResponse } from "../types/TripCard";
+import { getAll as getAllTrips } from "../services/TripService";
+import { toast } from "react-toastify";
+import TripCard from "../components/TripCard";
+import { Routes, Route } from "react-router-dom";
+import TripDetails from "./TripDetails";
 
 const Dashboard: React.FC = () => {
   const [showFilter, setShowFilter] = useState(false);
-  const [trips, setTrips] = useState<TripCardResponse[]>([])
+  const [trips, setTrips] = useState<TripCardResponse[]>([]);
   const [loading, setLoading] = useState(true);
-
 
   useEffect(() => {
     const fetchTrips = async () => {
       try {
-        const data = await getAllTrips();
+        const data = await getAllTrips({});
         setTrips(data);
-        console.log(data)
+        console.log(data);
       } catch (error) {
-        toast.error("Error: fetching trips")
+        toast.error("Error: fetching trips");
       } finally {
         setLoading(false);
       }
@@ -54,11 +52,13 @@ const Dashboard: React.FC = () => {
                   </button>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
-                  {trips.map(trip => (
+                  {trips.map((trip) => (
                     <TripCard key={trip.id} trip={trip} />
                   ))}
                 </div>
-                {showFilter && <FilterModal onClose={() => setShowFilter(false)} />}
+                {showFilter && (
+                  <FilterModal onClose={() => setShowFilter(false)} />
+                )}
               </>
             }
           />
@@ -69,4 +69,4 @@ const Dashboard: React.FC = () => {
   );
 };
 
-export default Dashboard; 
+export default Dashboard;

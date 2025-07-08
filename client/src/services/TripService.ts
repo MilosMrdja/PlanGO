@@ -1,8 +1,14 @@
+import { Meta } from "react-router-dom";
 import { TripCard } from "../types/TripCard";
+import { FilterTripeRequest } from "../types/TripFilterRequest";
 import { apiCall } from "./api";
 
-export const getAll = async (): Promise<TripCard[]> => {
-  const reposnse = await apiCall("api/trips", {
+export const getAll = async (
+  filter: FilterTripeRequest
+): Promise<TripCard[]> => {
+  const query = new URLSearchParams(filter as any).toString();
+  console.log(query);
+  const reposnse = await apiCall(`api/trips?${query}`, {
     method: "GET",
   });
   return reposnse.data;
@@ -15,35 +21,67 @@ export const getById = async (id: string | number) => {
   return response.data;
 };
 
-export const createTrip = async (tripData: {
-  title: string;
-  description: string;
-  startDate: Date;
-  endDate: Date;
-  status: string;
-  location: { latitude: number; longitude: number };
-  files: File[];
-}) => {
+export const createTrip = async (tripData: { title: string }) => {
   const formData = new FormData();
-  formData.append("title", tripData.title);
-  formData.append("description", tripData.description);
-  formData.append("startDate", tripData.startDate.toISOString());
-  formData.append("endDate", tripData.endDate.toISOString());
-  formData.append("status", tripData.status);
-  formData.append("latitude", String(tripData.location.latitude));
-  formData.append("longitude", String(tripData.location.longitude));
-  tripData.files.forEach((file) => {
-    formData.append("files", file);
-  });
+  formData.append("Title", tripData.title);
   const response = await apiCall("api/trips", {
     method: "POST",
     body: formData,
-    headers: {
-      // 'Content-Type': 'multipart/form-data', // Let browser set this for FormData
-    },
   });
   return response.data;
 };
+
+export const updateTrip = async (
+  id: number,
+  request: {
+    title?: string;
+    description?: string;
+    images?: File[];
+    imagesToDelete?: string[];
+    location?: { Latitude: number; Longitude: number };
+  }
+) => {
+  const formData = new FormData();
+  if (request.title) formData.append("Title", request.title);
+  if (request.description) formData.append("Description", request.description);
+
+  if (request.images?.length) {
+    request.images.forEach((file) => formData.append("Images", file));
+  }
+
+  if (request.imagesToDelete?.length) {
+    request.imagesToDelete.forEach((name) =>
+      formData.append("ImagesToDelete", name)
+    );
+  }
+
+  if (request.location) {
+    formData.append("Location.Latitude", request.location.Latitude.toString());
+    formData.append(
+      "Location.Longitude",
+      request.location.Longitude.toString()
+    );
+  }
+  const reposnse = await apiCall(`api/trips/${id}`, {
+    method: "PUT",
+    body: formData,
+  });
+  return reposnse.data;
+};
+
+export const startTrip = async (id: number, request: { startDate: Date }) => {
+  const formData = new FormData();
+  formData.append("StartDate", request.startDate.toISOString());
+  const response = await apiCall(`api/trips/${id}/start`, {
+    method: "PUT",
+    body: formData,
+  });
+  return response.data;
+};
+
+/*headers: {
+  // 'Content-Type': 'multipart/form-data', // Let browser set this for FormData
+},*/
 
 export const uploadImage = async (files: File[]) => {
   const formData = new FormData();

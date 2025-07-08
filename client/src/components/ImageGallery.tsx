@@ -1,12 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 interface ImageGalleryProps {
   images: string[];
+  renderDelete?: (idx: number) => React.ReactNode;
 }
 
-const ImageGallery: React.FC<ImageGalleryProps> = ({ images }) => {
+const ImageGallery: React.FC<ImageGalleryProps> = ({
+  images,
+  renderDelete,
+}) => {
   const [current, setCurrent] = useState(0);
   const baseUrl = "https://localhost:7249/";
+  useEffect(() => {
+    if (current >= images.length) {
+      setCurrent(images.length > 0 ? images.length - 1 : 0);
+    }
+  }, [images, current]);
   if (!images || images.length === 0) return null;
 
   const prevImage = () =>
@@ -24,11 +33,18 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images }) => {
         >
           &#8592;
         </button>
-        <img
-          src={`https://localhost:7249/${images[current]}`}
-          alt={`Trip view ${current + 1}`}
-          className="w-full max-w-lg h-64 object-cover rounded-lg shadow-md"
-        />
+        <div className="relative w-full max-w-lg">
+          <img
+            src={`https://localhost:7249/${images[current]}`}
+            alt={`Trip view ${current + 1}`}
+            className="w-full h-64 object-cover rounded-lg shadow-md"
+          />
+          {renderDelete && (
+            <div className="absolute top-2 right-2">
+              {renderDelete(current)}
+            </div>
+          )}
+        </div>
         <button
           onClick={nextImage}
           className="absolute right-0 z-10 bg-white bg-opacity-70 rounded-full p-2 shadow hover:bg-opacity-100 transition"

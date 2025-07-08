@@ -158,7 +158,7 @@ namespace Application.Services
         public async Task<TripResponse> UpdateTrip(int id, UpdateTripRequest request)
         {
             var trip = await _tripRepository.GetWithImages(id) ?? throw new Exception($"Trip not found with id: {id}");
-            
+            if(request.Title == null) { throw new Exception("Trip must have a title"); }
             if (trip.Status == Domain.Enums.TripStatus.Completed)
             {
                 throw new Exception("You can not change finished trip");
@@ -173,7 +173,7 @@ namespace Application.Services
                 }
             }
 
-            trip.Title = request.Title ?? trip.Title;
+            trip.Title = request.Title;
             trip.Description = request.Description ?? trip.Description;
             if(trip.Status == Domain.Enums.TripStatus.InProgress)
             {
