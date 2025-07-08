@@ -1,4 +1,4 @@
 export interface LocationDTO {
-  Latitude: number;
-  Longitude: number;
+  latitude: number;
+  longitude: number;
 }

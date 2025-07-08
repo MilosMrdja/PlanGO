@@ -1,4 +1,4 @@
 export interface ImageResponse {
-  Id: number;
-  ImageURL: string;
+  id: number;
+  imageUrl: string;
 }

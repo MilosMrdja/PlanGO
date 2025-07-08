@@ -1,6 +1,6 @@
 import React from 'react';
 
-type ButtonVariant = 'submit' | 'cancel' | 'info';
+type ButtonVariant = 'submit' | 'cancel' | 'info' | 'danger' | 'edit';
 
 interface ButtonProps {
   children: React.ReactNode;

@@ -1,8 +1,9 @@
 import { TripStatus } from "./enums/TripStatus";
 
 export interface TripCard {
-  Title: string;
-  Description: string;
-  StartDate: Date;
-  Status: TripStatus;
+  id: number;
+  title: string;
+  description: string;
+  startDate: Date;
+  status: TripStatus;
 }

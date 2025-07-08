@@ -1,37 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import Sidebar from '../components/Sidebar';
 import FilterModal from '../components/FilterModal';
-import { TripCard } from '../types/TripCard';
+import { TripCard as TripCardResponse} from '../types/TripCard';
 import { getAll as getAllTrips } from '../services/TripService';
 import { toast } from 'react-toastify';
+import TripCard from '../components/TripCard';
+import { Routes, Route } from 'react-router-dom';
+import TripDetails from './TripDetails';
 
-const trips = [
-  {
-    id: 1,
-    title: 'Letovanje u Grčkoj',
-    description: 'Odmor na moru sa porodicom.',
-    startDate: '2024-08-01',
-    status: 'Planned',
-  },
-  {
-    id: 2,
-    title: 'Planinarenje na Tari',
-    description: 'Vikend avantura sa društvom.',
-    startDate: '2024-07-15',
-    status: 'InProgress',
-  },
-  {
-    id: 3,
-    title: 'Poseta Beču',
-    description: 'Kratko putovanje u Austriju.',
-    startDate: '2024-06-10',
-    status: 'Completed',
-  },
-];
 
 const Dashboard: React.FC = () => {
   const [showFilter, setShowFilter] = useState(false);
-  const [trips, setTrips] = useState<TripCard[]>([])
+  const [trips, setTrips] = useState<TripCardResponse[]>([])
   const [loading, setLoading] = useState(true);
 
 
@@ -42,7 +22,7 @@ const Dashboard: React.FC = () => {
         setTrips(data);
         console.log(data)
       } catch (error) {
-        toast.error("Error: fetchin trips")
+        toast.error("Error: fetching trips")
       } finally {
         setLoading(false);
       }
@@ -55,22 +35,35 @@ const Dashboard: React.FC = () => {
     <div className="flex min-h-screen bg-gray-100">
       <Sidebar />
       <main className="flex-1 p-8">
-        <div className="flex items-center justify-between mb-6">
-          
-          <input
-            type="text"
-            placeholder="Pretraži putovanja..."
-            className="w-1/2 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <>
+                <div className="flex items-center justify-between mb-6">
+                  <input
+                    type="text"
+                    placeholder="Pretraži putovanja..."
+                    className="w-1/2 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  />
+                  <button
+                    onClick={() => setShowFilter(true)}
+                    className="ml-4 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors duration-200"
+                  >
+                    Filteri
+                  </button>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
+                  {trips.map(trip => (
+                    <TripCard key={trip.id} trip={trip} />
+                  ))}
+                </div>
+                {showFilter && <FilterModal onClose={() => setShowFilter(false)} />}
+              </>
+            }
           />
-          <button
-            onClick={() => setShowFilter(true)}
-            className="ml-4 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors duration-200"
-          >
-            Filteri
-          </button>
-        </div>
-         
-        {showFilter && <FilterModal onClose={() => setShowFilter(false)} />}
+          <Route path="trips/:id" element={<TripDetails />} />
+        </Routes>
       </main>
     </div>
   );
