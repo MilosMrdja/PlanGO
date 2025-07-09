@@ -7,7 +7,7 @@ export const getAll = async (
   filter: FilterTripeRequest
 ): Promise<TripCard[]> => {
   const query = new URLSearchParams(filter as any).toString();
-  console.log(query);
+  //console.log(query);
   const reposnse = await apiCall(`api/trips?${query}`, {
     method: "GET",
   });

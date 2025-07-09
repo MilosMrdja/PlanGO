@@ -1,5 +1,12 @@
 import { apiCall } from "./api";
 
+export const getById = async (id: string | number) => {
+  const response = await apiCall(`api/trip-activities/${id}`, {
+    method: "GET",
+  });
+  return response.data;
+};
+
 export const createTripActivity = async (tripId: number, title: string) => {
   const response = await apiCall("api/trip-activities", {
     method: "POST",
@@ -107,4 +114,40 @@ export const deleteTripActivity = async (activityId: number) => {
   });
   console.log(response);
   return response;
+};
+
+export const updateTripActivity = async (
+  id: number,
+  request: {
+    title?: string;
+    images?: File[];
+    imagesToDelete?: string[];
+    location?: { Latitude: number; Longitude: number };
+  }
+) => {
+  const formData = new FormData();
+  if (request.title) formData.append("Title", request.title);
+
+  if (request.images?.length) {
+    request.images.forEach((file) => formData.append("Images", file));
+  }
+
+  if (request.imagesToDelete?.length) {
+    request.imagesToDelete.forEach((name) =>
+      formData.append("ImagesToDelete", name)
+    );
+  }
+
+  if (request.location) {
+    formData.append("Location.Latitude", request.location.Latitude.toString());
+    formData.append(
+      "Location.Longitude",
+      request.location.Longitude.toString()
+    );
+  }
+  const reposnse = await apiCall(`api/trip-activities/${id}`, {
+    method: "PUT",
+    body: formData,
+  });
+  return reposnse.data;
 };

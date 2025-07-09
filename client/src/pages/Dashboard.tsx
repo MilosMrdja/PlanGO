@@ -11,6 +11,7 @@ import CreateModal from "../components/CreateModal";
 import { createTrip } from "../services/TripService";
 import { Plus } from "lucide-react";
 import { useLocation } from "react-router-dom";
+import TripActivityDetails from "./ActivityDetails";
 
 const Dashboard: React.FC = () => {
   const [showFilter, setShowFilter] = useState(false);
@@ -93,6 +94,7 @@ const Dashboard: React.FC = () => {
             }
           />
           <Route path="trips/:id" element={<TripDetails />} />
+          <Route path="trip-activities/:id" element={<TripActivityDetails />} />
         </Routes>
       </main>
       <CreateModal

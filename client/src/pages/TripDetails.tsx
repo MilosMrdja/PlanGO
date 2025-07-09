@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, Route, useParams } from "react-router-dom";
 import { TripResponse } from "../types/TripResponse";
 import { toast } from "react-toastify";
 import {
@@ -29,6 +29,12 @@ import { startTripActivity } from "../services/TripActivityService";
 import CancelModal from "../components/CancelModal";
 import FinishTripActivityModal from "../components/FinishTripActivityModal";
 import CompleteTripModal from "../components/CompleteTripModal";
+import TripActivityDetails from "./ActivityDetails";
+import DateComponent from "../components/DateComponent";
+import EditActivityButton from "../components/EditIcon";
+import GalleryComponent from "../components/GalleryComponent";
+import LocationModal from "../components/LocationModal";
+import LocationComponent from "../components/LocationComponent";
 
 const TripDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -367,20 +373,11 @@ const TripDetails: React.FC = () => {
 
         {/* Sredina: Datum + Status badge */}
         <div className="flex items-center gap-4 text-sm text-gray-600">
-          <div className="flex items-center gap-2">
-            <CalendarDays className="w-4 h-4 text-amber-800" />
-            <span>
-              {trip.status === "Completed" && trip.startDate
-                ? `${new Date(
-                    trip.startDate
-                  ).toLocaleDateString()} - ${new Date(
-                    trip.endDate
-                  ).toLocaleDateString()}`
-                : trip.startDate
-                ? `Start: ${new Date(trip.startDate).toLocaleDateString()}`
-                : "Unknown"}
-            </span>
-          </div>
+          <DateComponent
+            startDate={trip.startDate}
+            endDate={trip.endDate}
+            status={trip.status}
+          />
           <span
             className={`px-3 py-1 rounded-full text-xs font-semibold ${statusColor}`}
           >
@@ -389,98 +386,38 @@ const TripDetails: React.FC = () => {
         </div>
 
         {/* Desna strana: Edit dugme u obliku ikonice */}
-        <div className="ml-auto">
-          {(trip.status === "Planned" || trip.status === "InProgress") && (
-            <button
-              onClick={() => setShowEditModal(true)}
-              className="text-gray-500 hover:text-gray-700"
-              title="Edit Trip"
-            >
-              ✏️
-            </button>
-          )}
-        </div>
+        <EditActivityButton
+          status={trip.status}
+          onClick={() => setShowEditModal(true)}
+        />
       </div>
 
       {/* Description */}
       <p className="text-gray-700 pl-10 mb-2">{trip.description}</p>
 
       {/* Images */}
-      {(trip.status === "InProgress" ||
-        (trip.images && trip.images.length > 0)) && (
-        <div>
-          <h3 className="font-bold text-lg text-amber-700 pl-10 mb-2 flex items-center gap-2">
-            Gallery
-            {trip.status === "InProgress" && (
-              <label className="cursor-pointer bg-green-200 rounded-full text-green-600 hover:text-green-800 flex items-center">
-                <Plus size={24} />
-                <input
-                  type="file"
-                  multiple
-                  className="hidden"
-                  onChange={(e) => handleAddImages(e.target.files)}
-                  disabled={imageLoading}
-                />
-              </label>
-            )}
-          </h3>
-
-          {trip.images && trip.images.length > 0 && (
-            <div className="relative">
-              <ImageGallery
-                images={trip.images.map((e) => e.imageUrl)}
-                renderDelete={
-                  trip.status === "InProgress"
-                    ? (idx) => (
-                        <button
-                          className="bg-white bg-opacity-80 rounded-full p-1 text-red-600 hover:text-red-800 shadow"
-                          onClick={() => handleDeleteImage(idx)}
-                          disabled={imageLoading}
-                        >
-                          <Trash2 size={20} />
-                        </button>
-                      )
-                    : undefined
-                }
-              />
-            </div>
-          )}
-        </div>
-      )}
+      <GalleryComponent
+        status={trip.status}
+        images={trip.images}
+        onAddImages={(files) => handleAddImages(files)}
+        onDeleteImage={(idx) => handleDeleteImage(idx)}
+        imageLoading={imageLoading}
+      />
 
       {/* Location Map */}
-      <div>
-        <h3 className="font-bold text-lg text-amber-700 pl-10 mb-2 flex items-center gap-2">
-          Location
-          <Button
-            type="button"
-            variant="edit"
-            className="ml-4"
-            onClick={() => {
-              if (trip.location) {
-                setSelectedLocation({
-                  latitude: trip.location.latitude,
-                  longitude: trip.location.longitude,
-                });
-              }
-              setShowLocationModal(true);
-            }}
-          >
-            Change Location
-          </Button>
-        </h3>
-        {!trip.location && (
-          <p className="text-gray-500 pl-10 italic mb-2">
-            Location not selected yet.
-          </p>
-        )}
-        {trip.location && (
-          <Map
-            latitude={trip.location.latitude}
-            longitude={trip.location.longitude}
-          />
-        )}
-      </div>
+      <LocationComponent
+        location={trip.location}
+        canEdit={trip.status === "Planned" || trip.status === "InProgress"}
+        onEdit={() => {
+          if (trip.location) {
+            setSelectedLocation({
+              latitude: trip.location.latitude,
+              longitude: trip.location.longitude,
+            });
+          }
+          setShowLocationModal(true);
+        }}
+      />
 
       {/* Future Activities Section */}
       <div className="mt-6">
@@ -504,7 +441,7 @@ const TripDetails: React.FC = () => {
               >
                 {/* Left: title + link */}
                 <Link
-                  to={`/trip-activities/${activity.id}`}
+                  to={`/dashboard/trip-activities/${activity.id}`}
                   className="text-amber-800 font-semibold hover:underline"
                 >
                   {activity.title}
@@ -621,63 +558,15 @@ const TripDetails: React.FC = () => {
           </div>
         </div>
       )}
-      {showLocationModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-[9999]">
-          <div className="bg-white rounded-xl shadow-lg p-8 w-full max-w-md relative">
-            <button
-              onClick={() => setShowLocationModal(false)}
-              className="absolute top-2 right-2 text-gray-500 hover:text-gray-700 text-xl"
-            >
-              &times;
-            </button>
-            <h2 className="text-xl font-bold mb-4 text-gray-800">
-              Select New Location
-            </h2>
-            <div className="mb-4">
-              <Map
-                latitude={
-                  selectedLocation?.latitude ??
-                  trip.location?.latitude ??
-                  44.7866 // Default latitude (Beograd)
-                }
-                longitude={
-                  selectedLocation?.longitude ??
-                  trip.location?.longitude ??
-                  20.4489 // Default longitude (Beograd)
-                }
-                onClick={(lat: number, lng: number) =>
-                  setSelectedLocation({ latitude: lat, longitude: lng })
-                }
-                marker={
-                  selectedLocation ??
-                  trip.location ?? {
-                    latitude: 44.7866,
-                    longitude: 20.4489,
-                  }
-                }
-              />
-            </div>
-
-            <div className="flex gap-4 justify-end">
-              <Button
-                type="button"
-                variant="cancel"
-                onClick={() => setShowLocationModal(false)}
-              >
-                Cancel
-              </Button>
-              <Button
-                type="button"
-                variant="submit"
-                onClick={handleSaveLocation}
-                disabled={!selectedLocation}
-              >
-                Save
-              </Button>
-            </div>
-          </div>
-        </div>
-      )}
+      <LocationModal
+        show={showLocationModal}
+        onClose={() => setShowLocationModal(false)}
+        selectedLocation={selectedLocation}
+        tripLocation={trip.location}
+        onSelectLocation={(loc) => setSelectedLocation(loc)}
+        onSave={handleSaveLocation}
+        status={trip.status}
+      />
       <CreateModal
         show={showCreateActivity}
         onSave={handleCreateActivty}

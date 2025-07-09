@@ -8,7 +8,7 @@ import { AuthProvider } from "./AuthProvider";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import TripActivityDetails from "./pages/TripActivityDetails";
+import TripActivityDetails from "./pages/ActivityDetails";
 
 const App: React.FC = () => {
   return (
@@ -33,14 +33,6 @@ const App: React.FC = () => {
             element={
               <ProtectedRoute>
                 <Dashboard />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/trip-activities/:id"
-            element={
-              <ProtectedRoute>
-                <TripActivityDetails />
               </ProtectedRoute>
             }
           />
