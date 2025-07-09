@@ -17,17 +17,19 @@ namespace Application.Services
         private readonly ITripActivityRepository _tripActivityRepository;
         private readonly ITripActivityMapper _tripActivityMapper;
         private readonly ITripRepository _tripRepository;
+        private readonly IImageRepository _imageRepository;
         private readonly ImageService _imageService;
         private readonly LocationServices _locationServices;
 
         public TripActivityService(ITripActivityRepository tripActivityRepository, ITripActivityMapper tripActivityMapper, 
-            ITripRepository tripRepository, ImageService imageService, LocationServices locationServices)
+            ITripRepository tripRepository, ImageService imageService, LocationServices locationServices, IImageRepository imageRepository)
         {
             _tripActivityRepository = tripActivityRepository;
             _tripActivityMapper = tripActivityMapper;
             _tripRepository = tripRepository;
             _imageService = imageService;
             _locationServices = locationServices;
+            _imageRepository = imageRepository;
         }
 
         public async Task<TripActivityResponse?> GetById(int id)
@@ -184,6 +186,8 @@ namespace Application.Services
         {
             TripActivity tripActivity = await _tripActivityRepository.GetByIdAsync(id) ?? throw new Exception($"" +
                 $"Trip activity with id: {id} not found");
+
+            await _imageRepository.DeleteImagesByActivity(id);
 
             await _tripActivityRepository.DeleteAsync(tripActivity);
         }

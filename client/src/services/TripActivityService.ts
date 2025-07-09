@@ -105,5 +105,6 @@ export const deleteTripActivity = async (activityId: number) => {
   const response = await apiCall(`api/trip-activities/${activityId}`, {
     method: "DELETE",
   });
-  return response.data;
+  console.log(response);
+  return response;
 };

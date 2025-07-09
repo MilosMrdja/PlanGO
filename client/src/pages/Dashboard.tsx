@@ -10,6 +10,7 @@ import TripDetails from "./TripDetails";
 import CreateModal from "../components/CreateModal";
 import { createTrip } from "../services/TripService";
 import { Plus } from "lucide-react";
+import { useLocation } from "react-router-dom";
 
 const Dashboard: React.FC = () => {
   const [showFilter, setShowFilter] = useState(false);
@@ -17,6 +18,7 @@ const Dashboard: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [showCreateTrip, setShowCreateTrip] = useState(false);
   const [createTripLoading, setCreateTripLoading] = useState(false);
+  const location = useLocation();
   const handleCreateTrip = async (title: string) => {
     setCreateTripLoading(true);
     try {
@@ -44,9 +46,11 @@ const Dashboard: React.FC = () => {
         setLoading(false);
       }
     };
-
+    if (location.pathname === "/dashboard") {
+      fetchTrips();
+    }
     fetchTrips();
-  }, []);
+  }, [location]);
 
   return (
     <div className="flex min-h-screen bg-gray-100">

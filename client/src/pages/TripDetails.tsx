@@ -253,10 +253,10 @@ const TripDetails: React.FC = () => {
     }
   };
 
-  const handleCancelTripActivity = async (comment: string, id?: number) => {
+  const handleCancelTripActivity = async (comment: string, idA?: number) => {
     setShowCancelActivityLoading(true);
     try {
-      await cancelTripActivity(id ?? currentActivity, comment);
+      await cancelTripActivity(idA ?? currentActivity, comment);
       const data = await getById(id!);
       setTrip(data[0]);
       setShowCancelActivityModal(false);
@@ -406,12 +406,13 @@ const TripDetails: React.FC = () => {
       <p className="text-gray-700 pl-10 mb-2">{trip.description}</p>
 
       {/* Images */}
-      {trip.images && trip.images.length > 0 && (
+      {(trip.status === "InProgress" ||
+        (trip.images && trip.images.length > 0)) && (
         <div>
           <h3 className="font-bold text-lg text-amber-700 pl-10 mb-2 flex items-center gap-2">
             Gallery
             {trip.status === "InProgress" && (
-              <label className="cursor-pointer bg-green-200  rounded-full text-green-600 hover:text-green-800 flex items-center">
+              <label className="cursor-pointer bg-green-200 rounded-full text-green-600 hover:text-green-800 flex items-center">
                 <Plus size={24} />
                 <input
                   type="file"
@@ -424,24 +425,26 @@ const TripDetails: React.FC = () => {
             )}
           </h3>
 
-          <div className="relative">
-            <ImageGallery
-              images={trip.images.map((e) => e.imageUrl)}
-              renderDelete={
-                trip.status === "InProgress"
-                  ? (idx) => (
-                      <button
-                        className="bg-white bg-opacity-80 rounded-full p-1 text-red-600 hover:text-red-800 shadow"
-                        onClick={() => handleDeleteImage(idx)}
-                        disabled={imageLoading}
-                      >
-                        <Trash2 size={20} />
-                      </button>
-                    )
-                  : undefined
-              }
-            />
-          </div>
+          {trip.images && trip.images.length > 0 && (
+            <div className="relative">
+              <ImageGallery
+                images={trip.images.map((e) => e.imageUrl)}
+                renderDelete={
+                  trip.status === "InProgress"
+                    ? (idx) => (
+                        <button
+                          className="bg-white bg-opacity-80 rounded-full p-1 text-red-600 hover:text-red-800 shadow"
+                          onClick={() => handleDeleteImage(idx)}
+                          disabled={imageLoading}
+                        >
+                          <Trash2 size={20} />
+                        </button>
+                      )
+                    : undefined
+                }
+              />
+            </div>
+          )}
         </div>
       )}
 

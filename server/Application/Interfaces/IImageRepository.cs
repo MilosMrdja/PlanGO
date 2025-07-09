@@ -10,5 +10,6 @@ namespace Application.Interfaces
     public interface IImageRepository : IRepository<Image>
     {
         Task<Image?> GetByURL(string url);
+        Task DeleteImagesByActivity(int id);
     }
 }
