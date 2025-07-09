@@ -20,5 +20,6 @@ namespace Application.DTOs
         public LocationDTO? Location { get; set; }
         public int TripId { get; set; }
         public IFormFile[]? Images { get; set; }
+        public string[]? ImagesToDelete { get; set; }
     }
 }

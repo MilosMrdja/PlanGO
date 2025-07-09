@@ -35,6 +35,9 @@ import EditActivityButton from "../components/EditIcon";
 import GalleryComponent from "../components/GalleryComponent";
 import LocationModal from "../components/LocationModal";
 import LocationComponent from "../components/LocationComponent";
+import TripActivitiesModal from "../components/ListActivityModal";
+import EditTripModal from "../components/EditTripModal";
+import TripActivitiesList from "../components/ListActivityModal";
 
 const TripDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -75,13 +78,15 @@ const TripDetails: React.FC = () => {
   const [showCompleteActivityModal, setShowCompleteActivityModal] =
     useState(false);
 
+  const [showActivitiesModal, setShowActivitiesModal] = useState(false);
+
   useEffect(() => {
     setLoading(true);
     const fetchTrip = async () => {
       try {
         if (!id) return;
         const data = await getById(id);
-        console.log(data);
+        //console.log(data);
         setTrip(data[0]);
         if (data[0].status === TripStatus.InProgress)
           setStatusColor("bg-blue-200 text-blue-800");
@@ -342,9 +347,13 @@ const TripDetails: React.FC = () => {
     <div className="bg-white rounded-xl shadow-md p-6 space-y-4">
       {/* Title and rating */}
       <div className="flex items-center justify-between flex-wrap gap-4">
-        {/* Leva strana: Naslov + Start dugme */}
-        <div className="flex items-center gap-4">
+        {/* Leva strana: Naslov */}
+        <div className="flex-1">
           <H1>{trip.title}</H1>
+        </div>
+
+        {/* Sredina: Dugme */}
+        <div className="flex justify-center gap-4 flex-shrink-0">
           {trip.status === "Planned" && (
             <Button
               type="button"
@@ -355,7 +364,6 @@ const TripDetails: React.FC = () => {
               Start Trip
             </Button>
           )}
-
           {trip.status === "InProgress" && (
             <Button
               type="button"
@@ -371,8 +379,8 @@ const TripDetails: React.FC = () => {
           )}
         </div>
 
-        {/* Sredina: Datum + Status badge */}
-        <div className="flex items-center gap-4 text-sm text-gray-600">
+        {/* Desna strana:  */}
+        <div className="flex items-center gap-4 flex-1 justify-end text-sm text-gray-600">
           <DateComponent
             startDate={trip.startDate}
             endDate={trip.endDate}
@@ -383,16 +391,17 @@ const TripDetails: React.FC = () => {
           >
             {trip.status}
           </span>
+          <EditActivityButton
+            status={trip.status}
+            onClick={() => setShowEditModal(true)}
+          />
         </div>
-
-        {/* Desna strana: Edit dugme u obliku ikonice */}
-        <EditActivityButton
-          status={trip.status}
-          onClick={() => setShowEditModal(true)}
-        />
       </div>
 
       {/* Description */}
+      <h3 className="font-bold text-lg text-amber-700 pl-10 mb-2 flex items-center gap-2">
+        Description
+      </h3>
       <p className="text-gray-700 pl-10 mb-2">{trip.description}</p>
 
       {/* Images */}
@@ -423,141 +432,35 @@ const TripDetails: React.FC = () => {
       <div className="mt-6">
         <h3 className="text-lg font-bold text-amber-700 mb-4 pl-10 flex items-center gap-2">
           Activities
-          <button
-            onClick={() => setShowCreateActivity(true)}
-            className="cursor-pointer bg-green-200 rounded-full text-green-600 hover:text-green-800"
-            title="Add Activity"
-          >
-            <Plus size={24} />
-          </button>
+          {trip.status !== TripStatus.Completed && (
+            <button
+              onClick={() => setShowCreateActivity(true)}
+              className="cursor-pointer bg-green-200 rounded-full text-green-600 hover:text-green-800"
+              title="Add Activity"
+            >
+              <Plus size={24} />
+            </button>
+          )}
         </h3>
 
-        {trip.tripActivities && trip.tripActivities.length > 0 ? (
-          <ul className="space-y-2 pl-10">
-            {trip.tripActivities.map((activity) => (
-              <li
-                key={activity.id}
-                className="flex items-center justify-between p-3 bg-amber-50 rounded-md shadow-sm border border-amber-200"
-              >
-                {/* Left: title + link */}
-                <Link
-                  to={`/dashboard/trip-activities/${activity.id}`}
-                  className="text-amber-800 font-semibold hover:underline"
-                >
-                  {activity.title}
-                </Link>
-
-                {/* Middle: Status badge */}
-                <span
-                  className={`text-xs font-medium px-2 py-1 rounded-full ${
-                    (console.log(
-                      "status:",
-                      activity.status,
-                      TripActivityStatus.Completed
-                    ),
-                    activity.status === TripActivityStatus.Completed
-                      ? "bg-green-100 text-green-800"
-                      : activity.status === TripActivityStatus.Planned
-                      ? "bg-yellow-100 text-yellow-800"
-                      : activity.status === TripActivityStatus.InProgress
-                      ? "bg-blue-100 text-blue-800"
-                      : activity.status === TripActivityStatus.Cancelled
-                      ? "bg-gray-100 text-gray-500"
-                      : "")
-                  }`}
-                >
-                  {activity.status}
-                </span>
-
-                {/* Right: buttons based on status */}
-                <div className="flex gap-2">
-                  {activity.status === TripActivityStatus.Planned && (
-                    <>
-                      <button
-                        onClick={() => handleStartActivity(activity.id)}
-                        className="text-xs text-blue-700 border border-blue-300 px-2 py-1 rounded hover:bg-blue-50"
-                      >
-                        Start
-                      </button>
-                      <button
-                        onClick={() => handleCancelActivity(activity.id)}
-                        className="text-xs text-red-700 border border-red-300 px-2 py-1 rounded hover:bg-red-50"
-                      >
-                        Cancel
-                      </button>
-                    </>
-                  )}
-                  {activity.status === TripActivityStatus.InProgress && (
-                    <>
-                      <button
-                        onClick={() => handleCompleteActivity(activity.id)}
-                        className="text-xs text-green-700 border border-green-300 px-2 py-1 rounded hover:bg-green-50"
-                      >
-                        Complete
-                      </button>
-                      <button
-                        onClick={() => handleCancelActivity(activity.id)}
-                        className="text-xs text-red-700 border border-red-300 px-2 py-1 rounded hover:bg-red-50"
-                      >
-                        Cancel
-                      </button>
-                    </>
-                  )}
-                  {/* No buttons if Completed or Canceled */}
-                </div>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p className="text-sm text-gray-500 italic pl-10">
-            No activities yet.
-          </p>
-        )}
+        <TripActivitiesList
+          activities={trip.tripActivities}
+          onStart={handleStartActivity}
+          onComplete={handleCompleteActivity}
+          onCancel={handleCancelActivity}
+          isCompleted={trip.status === TripStatus.Completed}
+        />
       </div>
 
-      {showEditModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-[9999]">
-          <div className="bg-white rounded-xl shadow-lg p-8 w-full max-w-md relative">
-            <button
-              onClick={() => setShowEditModal(false)}
-              className="absolute top-2 right-2 text-gray-500 hover:text-gray-700 text-xl"
-            >
-              &times;
-            </button>
-            <h2 className="text-xl font-bold mb-4 text-gray-800">Edit Trip</h2>
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                handleEditTrip();
-              }}
-              className="space-y-4"
-            >
-              <TextInput
-                label="Title"
-                value={editTitle}
-                onChange={(e) => setEditTitle(e.target.value)}
-              />
-              <TextInput
-                label="Description"
-                value={editDescription}
-                onChange={(e) => setEditDescription(e.target.value)}
-              />
-              <div className="flex gap-4 mt-6">
-                <Button
-                  type="button"
-                  variant="cancel"
-                  onClick={() => setShowEditModal(false)}
-                >
-                  Cancel
-                </Button>
-                <Button type="submit" variant="submit">
-                  Save
-                </Button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
+      <EditTripModal
+        show={showEditModal}
+        title={editTitle}
+        description={editDescription}
+        onTitleChange={setEditTitle}
+        onDescriptionChange={setEditDescription}
+        onClose={() => setShowEditModal(false)}
+        onSave={handleEditTrip}
+      />
       <LocationModal
         show={showLocationModal}
         onClose={() => setShowLocationModal(false)}
@@ -572,6 +475,7 @@ const TripDetails: React.FC = () => {
         onSave={handleCreateActivty}
         onCancel={() => setShowCreateActivity(false)}
         loading={createActivityLoading}
+        isCreate={true}
       />
       <StartModal
         show={showStartTripModal}

@@ -1,5 +1,5 @@
-import React, { act, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import React, { act, use, useEffect, useState } from "react";
+import { useLocation, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import Button from "../components/UI/Button";
 import ImageGallery from "../components/ImageGallery";
@@ -12,6 +12,7 @@ import {
   getById,
   startTripActivity,
   updateTripActivity,
+  cancelTripActivity,
 } from "../services/TripActivityService";
 import ActivityActions from "../components/ActivityActionButton";
 import DateComponent from "../components/DateComponent";
@@ -19,11 +20,18 @@ import EditActivityButton from "../components/EditIcon";
 import GalleryComponent from "../components/GalleryComponent";
 import LocationModal from "../components/LocationModal";
 import LocationComponent from "../components/LocationComponent";
+import CancelModal from "../components/CancelModal";
+import FinishTripActivityModal from "../components/FinishTripActivityModal";
+import CreateModal from "../components/CreateModal";
+import { resolve } from "path";
+import { TripStatus } from "../types/enums/TripStatus";
 
 const TripActivityDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [activity, setActivity] = useState<any | null>(null);
   const [loading, setLoading] = useState(true);
+  const location = useLocation();
+  const state = location.state as { isTripCompleted: boolean };
 
   // start modal
   const [showStartModal, setShowStartModal] = useState(false);
@@ -45,16 +53,19 @@ const TripActivityDetails: React.FC = () => {
     latitude: number;
     longitude: number;
   } | null>(null);
+  //trip status
+  const [tripStatus, setTripStatus] = useState(false);
 
   useEffect(() => {
     setLoading(true);
-    console.log(id);
+    //console.log(id);
     const fecthActivity = async () => {
       try {
         if (!id) return;
         const response = await getById(id);
-        console.log(response);
+        //console.log(response);
         setActivity(response);
+        setTripStatus(state.isTripCompleted);
       } catch (err: any) {
         toast.error(err.message || "Api failed");
       } finally {
@@ -70,7 +81,8 @@ const TripActivityDetails: React.FC = () => {
     try {
       await startTripActivity(activity.id, startDate);
       const data = await getById(activity.id);
-      setActivity(data[0]);
+      //console.log(data);
+      setActivity(data);
       toast.success("Activity started");
       setShowStartModal(false);
     } catch (err: any) {
@@ -91,13 +103,30 @@ const TripActivityDetails: React.FC = () => {
     try {
       await finishTripActivity(activity.id, endDate, rate, comment, images);
       const data = await getById(activity.id);
-      setActivity(data[0]);
-      toast.success("Activity started");
+      setActivity(data);
+      toast.success("Activity finished");
       setShowCompletetModal(false);
     } catch (err: any) {
-      toast.error(err.message || "Failed to start activity");
+      toast.error(err.message || "Failed to finish activity");
     } finally {
       setCompleteLoading(false);
+    }
+  };
+
+  const handleEditActivity = async (title: string) => {
+    if (!activity) return;
+    setEditLoading(true);
+    try {
+      await updateTripActivity(activity.id, { title });
+      const response = await getById(activity.id);
+      //console.log(response);
+      setActivity(response);
+      toast.success("Activity updated");
+      setEditModal(false);
+    } catch (err: any) {
+      toast.error(err.message || "Failed to update activity");
+    } finally {
+      setEditLoading(false);
     }
   };
 
@@ -123,11 +152,43 @@ const TripActivityDetails: React.FC = () => {
     }
   };
 
-  const handleCancelActivity = async (comment: string) => {};
+  const handleCancelActivity = async (comment: string) => {
+    if (!activity) return;
+    try {
+      await cancelTripActivity(activity.id, comment);
+      const data = await getById(activity.id);
+      setActivity(Array.isArray(data) ? data[0] : data);
+      toast.success("Activity cancelled");
+    } catch (err: any) {
+      toast.error(err.message || "Failed to cancel activity");
+    }
+  };
 
-  const handleAddImages = async (files: FileList | null) => {};
+  const handleAddImages = async (files: FileList | null) => {
+    if (!activity || !files) return;
+    try {
+      await updateTripActivity(activity.id, { images: Array.from(files) });
+      const data = await getById(activity.id);
+      setActivity(Array.isArray(data) ? data[0] : data);
+      toast.success("Images added");
+    } catch (err: any) {
+      toast.error(err.message || "Failed to add images");
+    }
+  };
 
-  const handleDeleteImage = async (idx: number) => {};
+  const handleDeleteImage = async (idx: number) => {
+    if (!activity || !activity.images || !activity.images[idx]) return;
+    try {
+      const imageUrl = activity.images[idx].imageUrl;
+      console.log(imageUrl);
+      await updateTripActivity(activity.id, { imagesToDelete: [imageUrl] });
+      const data = await getById(activity.id);
+      setActivity(Array.isArray(data) ? data[0] : data);
+      toast.success("Image deleted");
+    } catch (err: any) {
+      toast.error(err.message || "Failed to delete image");
+    }
+  };
 
   if (loading) return <div className="p-6">Loading...</div>;
   if (!activity) return <div className="p-6">Activity not found</div>;
@@ -137,16 +198,19 @@ const TripActivityDetails: React.FC = () => {
       <div className="bg-white rounded-xl shadow-md p-6 space-y-4">
         {/* Title and actions */}
         <div className="flex items-center justify-between flex-wrap gap-4">
-          <div className="flex items-center gap-8 p-2">
+          <div className="flex-1">
             <H1>{activity.title}</H1>
+          </div>
+          <div className="flex justify-center gap-6 flex-shrink-0">
             <ActivityActions
               status={activity.status}
               onStart={() => setShowStartModal(true)}
               onFinish={() => setShowCompletetModal(true)}
               onCancel={() => setShowCancelModal(true)}
+              tripStatus={tripStatus}
             />
           </div>
-          <div className="flex items-center gap-4 text-sm text-gray-600">
+          <div className="flex items-center gap-4 flex-1 justify-end text-sm text-gray-600">
             <DateComponent
               startDate={activity.startDate}
               endDate={activity.endDate}
@@ -155,11 +219,11 @@ const TripActivityDetails: React.FC = () => {
             <span className="px-3 py-1 rounded-full text-xs font-semibold bg-yellow-200 text-yellow-800">
               {activity.status}
             </span>
+            <EditActivityButton
+              status={activity.status}
+              onClick={() => setEditModal(true)}
+            />
           </div>
-          <EditActivityButton
-            status={activity.status}
-            onClick={() => setEditModal(true)}
-          />
         </div>
 
         {/* Images */}
@@ -174,9 +238,7 @@ const TripActivityDetails: React.FC = () => {
         {/* Location Map */}
         <LocationComponent
           location={activity.location}
-          canEdit={
-            activity.status === "Planned" || activity.status === "InProgress"
-          }
+          canEdit={activity.status === "InProgress"}
           onEdit={() => {
             if (activity.location) {
               setSelectedLocation({
@@ -203,6 +265,26 @@ const TripActivityDetails: React.FC = () => {
         onSelectLocation={(loc) => setSelectedLocation(loc)}
         onSave={handleSaveLocation}
         status={activity.status}
+      />
+      <CancelModal
+        show={showCancelModal}
+        loading={CancelLoading}
+        onCancel={() => setShowCancelModal(false)}
+        onSave={handleCancelActivity}
+      />
+      <FinishTripActivityModal
+        show={showCompleteModal}
+        loading={CompleteLoading}
+        onCancel={() => setShowCompletetModal(false)}
+        onSave={handleFinishActivity}
+      />
+      <CreateModal
+        isCreate={false}
+        show={showEditModal}
+        onSave={handleEditActivity}
+        onCancel={() => setEditModal(false)}
+        loading={editLoading}
+        initialTitle={activity.title}
       />
     </div>
   );

@@ -34,6 +34,7 @@ namespace Application.Services
 
         public async Task<TripActivityResponse?> GetById(int id)
         {
+
             return _tripActivityMapper.toResponseDTO(await _tripActivityRepository.GetById(id)??throw new Exception($"Trip activity with id: {id} not found"));
         }
 
@@ -46,18 +47,19 @@ namespace Application.Services
 
         public async Task<TripActivityResponse?> Create(TripActivityRequest request)
         {
-            if(await _tripRepository.GetByIdAsync(request.TripId) == null) { throw new Exception($"Trip with id: {request.TripId} not found"); }
+
             if (string.IsNullOrWhiteSpace(request.Title)) { throw new Exception("Title is not valid"); }
 
             var createdTripActivity = await _tripActivityRepository.AddAsync(new Domain.Entities.TripActivity
             {
                 TripId = request.TripId,
                 Title = request.Title,
-                Status = Domain.Enums.TripActivityStatus.Planned,
+                Status = Domain.Enums.TripActivityStatus.Planned
             });
             
 
             return _tripActivityMapper.toResponseDTO(createdTripActivity ?? throw new Exception("Database error"));
+            
         }
 
         public async Task<TripActivityResponse?> Update(int id, TripActivityRequest request)
@@ -77,6 +79,11 @@ namespace Application.Services
             if (request.Images != null)
             {
                 await _imageService.UploadImages(request.Images, id, false);
+
+            }
+            if (request.ImagesToDelete != null)
+            {
+                await _imageService.DeleteImages(request.ImagesToDelete);
             }
 
             return _tripActivityMapper.toResponseDTO(await _tripActivityRepository.UpdateAsync(tripActivity) ?? new TripActivity());
@@ -86,6 +93,11 @@ namespace Application.Services
         {
             TripActivity tripActivity = await _tripActivityRepository.GetByIdAsync(id) ?? throw new Exception($"" +
                 $"Trip activity with id: {id} not found");
+            Trip trip = await _tripRepository.GetByIdAsync(tripActivity.TripId) ?? throw new Exception("Trip does not exist");
+            if(trip.Status != Domain.Enums.TripStatus.InProgress)
+            {
+                throw new Exception("Trip must be active");
+            }
 
             if(tripActivity.Status != Domain.Enums.TripActivityStatus.Planned) { throw new Exception("" +
                 "Trip activity must be planned"); }
@@ -167,7 +179,11 @@ namespace Application.Services
         {
             TripActivity tripActivity = await _tripActivityRepository.GetByIdAsync(id) ?? throw new Exception($"" +
                 $"Trip activity with id: {id} not found");
-
+            Trip trip = await _tripRepository.GetByIdAsync(tripActivity.TripId) ?? throw new Exception("Trip does not exist");
+            if (trip.Status == Domain.Enums.TripStatus.Completed)
+            {
+                throw new Exception("Trip must be active");
+            }
             if (tripActivity.Status == Domain.Enums.TripActivityStatus.InProgress
                 || tripActivity.Status == Domain.Enums.TripActivityStatus.Planned)
             {

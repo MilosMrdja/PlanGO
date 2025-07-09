@@ -65,7 +65,7 @@ const CancelModal: React.FC<CancelModalProps> = ({
               variant="submit"
               disabled={loading || !isValid}
             >
-              Save
+              Decline
             </Button>
           </div>
         </form>

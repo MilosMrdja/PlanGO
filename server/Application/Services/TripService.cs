@@ -113,7 +113,7 @@ namespace Application.Services
 
             if(await _tripActivityRepository.GetCountActiveActivities(trip.Id) > 0)
             {
-                throw new Exception("Trip is not finished, you still have active activites");
+                throw new Exception("Trip is not finished, you still have active activities");
             }
 
             // trip must contains rating
@@ -148,7 +148,7 @@ namespace Application.Services
                 {
                     if(tripActivity.EndDate > request.EndDate)
                     {
-                        throw new Exception("Trip activity must be completed before trip end date");
+                        throw new Exception("Trip must be completed after trip activity end date");
                     }
                 }
                 trip.EndDate = DateTime.SpecifyKind((DateTime)request.EndDate, DateTimeKind.Utc);

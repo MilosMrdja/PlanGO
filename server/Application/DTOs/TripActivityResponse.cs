@@ -23,5 +23,6 @@ namespace Application.DTOs
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public TripActivityStatus? Status { get; set; }
         public List<ImageResponse> Images { get; set; } = new List<ImageResponse>();
+        public TripStatus TripStatus { get; set; }
     }
 }

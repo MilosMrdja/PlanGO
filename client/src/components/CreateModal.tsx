@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "./UI/Button";
 import TextInput from "./UI/TextInput";
 
@@ -7,6 +7,8 @@ interface CreateModalProps {
   onSave: (title: string) => Promise<void>;
   onCancel: () => void;
   loading?: boolean;
+  isCreate: boolean;
+  initialTitle?: string;
 }
 
 const CreateModal: React.FC<CreateModalProps> = ({
@@ -14,9 +16,18 @@ const CreateModal: React.FC<CreateModalProps> = ({
   onSave,
   onCancel,
   loading,
+  isCreate,
+  initialTitle,
 }) => {
   const [title, setTitle] = useState("");
 
+  useEffect(() => {
+    if (!isCreate) {
+      setTitle(initialTitle ?? "");
+    } else {
+      setTitle("");
+    }
+  }, [isCreate, initialTitle]);
   if (!show) return null;
 
   return (
@@ -28,7 +39,9 @@ const CreateModal: React.FC<CreateModalProps> = ({
         >
           &times;
         </button>
-        <h2 className="text-xl font-bold mb-4 text-gray-800">Create</h2>
+        <h2 className="text-xl font-bold mb-4 text-gray-800">
+          {isCreate ? "Create" : "Edit"}
+        </h2>
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -47,7 +60,7 @@ const CreateModal: React.FC<CreateModalProps> = ({
               Cancel
             </Button>
             <Button type="submit" variant="submit" disabled={loading || !title}>
-              Save
+              {isCreate ? "Create" : "Edit"}
             </Button>
           </div>
         </form>

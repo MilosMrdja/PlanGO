@@ -1,4 +1,5 @@
 import { TripActivityStatus } from "./enums/TripActivityStatus";
+import { TripStatus } from "./enums/TripStatus";
 import { ImageResponse } from "./ImageResponse";
 import { LocationDTO } from "./LocationDTO";
 
@@ -12,4 +13,5 @@ export interface TripActivityResponse {
   location: LocationDTO;
   status: TripActivityStatus;
   images: ImageResponse[];
+  TripStatus: TripStatus;
 }

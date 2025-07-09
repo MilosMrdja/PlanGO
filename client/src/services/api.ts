@@ -28,7 +28,7 @@ export const apiCall = async (endpoint: string, options: RequestInit = {}) => {
     } catch (e) {
       error = { message: "API call failed" };
     }
-    console.error(error);
+    //console.error(error);
     throw new Error(error.message || "API call failed");
   }
   if (response.status === 204) {

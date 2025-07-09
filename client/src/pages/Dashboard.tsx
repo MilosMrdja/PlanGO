@@ -40,7 +40,7 @@ const Dashboard: React.FC = () => {
       try {
         const data = await getAllTrips({});
         setTrips(data);
-        console.log(data);
+        //console.log(data);
       } catch (error) {
         toast.error("Error: fetching trips");
       } finally {
@@ -102,6 +102,7 @@ const Dashboard: React.FC = () => {
         onSave={handleCreateTrip}
         onCancel={() => setShowCreateTrip(false)}
         loading={createTripLoading}
+        isCreate={true}
       />
     </div>
   );

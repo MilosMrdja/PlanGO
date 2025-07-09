@@ -175,7 +175,7 @@ const StartModal: React.FC<StartModalProps> = ({
               variant="submit"
               disabled={loading || (withEndDate && !isEndSectionValid)}
             >
-              Save
+              Start
             </Button>
           </div>
         </form>

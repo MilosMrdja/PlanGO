@@ -8,6 +8,7 @@ interface Props {
   onStart?: () => void;
   onFinish?: () => void;
   onCancel?: () => void;
+  tripStatus: boolean;
 }
 
 const ActivityActions: React.FC<Props> = ({
@@ -15,34 +16,59 @@ const ActivityActions: React.FC<Props> = ({
   onStart,
   onFinish,
   onCancel,
+  tripStatus,
 }) => {
   if (status === "Completed" || status === "Canceled") {
     return null;
   }
 
   return (
-    <div className="flex gap-2">
-      {status === "Planned" && (
-        <>
-          <Button type="button" onClick={onStart} variant="submit">
-            Start
-          </Button>
-          <Button type="button" onClick={onCancel} variant="submit">
-            Cancel
-          </Button>
-        </>
+    <>
+      {tripStatus === false && (
+        <div className="flex gap-2">
+          {status === "Planned" && (
+            <>
+              <Button
+                type="button"
+                onClick={onStart}
+                variant="submit"
+                className="px-4 min-w-[80px]"
+              >
+                Start
+              </Button>
+              <Button
+                type="button"
+                onClick={onCancel}
+                variant="submit"
+                className="px-4 min-w-[80px]"
+              >
+                Cancel
+              </Button>
+            </>
+          )}
+          {status === "InProgress" && (
+            <>
+              <Button
+                type="button"
+                onClick={onFinish}
+                variant="submit"
+                className="px-4 min-w-[80px]"
+              >
+                Finish
+              </Button>
+              <Button
+                type="button"
+                onClick={onCancel}
+                variant="submit"
+                className="px-4 min-w-[80px]"
+              >
+                Cancel
+              </Button>
+            </>
+          )}
+        </div>
       )}
-      {status === "InProgress" && (
-        <>
-          <Button type="button" onClick={onFinish} variant="submit">
-            Finish
-          </Button>
-          <Button type="button" onClick={onCancel} variant="submit">
-            Cancel
-          </Button>
-        </>
-      )}
-    </div>
+    </>
   );
 };
 

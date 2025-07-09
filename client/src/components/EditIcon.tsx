@@ -16,7 +16,7 @@ const EditActivityButton: React.FC<EditActivityButtonProps> = ({
   if (!isEditable) return null;
 
   return (
-    <div className="ml-auto">
+    <div className="">
       <button
         className="text-gray-500 hover:text-gray-700"
         title="Edit Activity"
