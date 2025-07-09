@@ -46,7 +46,7 @@ namespace Infrastructure.Repositories
         public async Task<int> GetCountActiveActivities(int tripId)
         {
             return await _context.TripActivities
-                .Where(a => a.TripId == tripId)
+                .Where(a => a.TripId == tripId && a.Status == TripActivityStatus.InProgress)
                 .CountAsync();
         }
 

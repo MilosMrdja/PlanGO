@@ -1,6 +1,6 @@
 export enum TripActivityStatus {
-  Planned,
-  InProgress,
-  Completed,
-  Cancelled,
+  Planned = "Planned",
+  InProgress = "InProgress",
+  Completed = "Completed",
+  Cancelled = "Cancelled",
 }

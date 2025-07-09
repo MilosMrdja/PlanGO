@@ -89,7 +89,7 @@ namespace Application.Services
                 "Trip activity must be planned"); }
             if(await _tripActivityRepository.GetCountActiveActivities(id) > 0)
             {
-                throw new Exception("Trip must have one trip activity maximum");
+                throw new Exception("Trip must have one trip activity active maximum");
             }
             if(!await ValidateStartDate(request.StartDate ?? throw new Exception("Must enter a start date"), tripActivity.TripId))
             {
@@ -105,7 +105,8 @@ namespace Application.Services
                 tripActivity.Rate = request.Rate ?? throw new Exception("You must leave a review"); 
                 tripActivity.Comment = request.Comment ?? throw new Exception("You must leave a comment");
                 tripActivity.Status = Domain.Enums.TripActivityStatus.Completed;
-                return _tripActivityMapper.toResponseDTO(tripActivity);
+                return _tripActivityMapper.toResponseDTO(await _tripActivityRepository.UpdateAsync(tripActivity) ??
+                throw new Exception("Database error"));
             }
             tripActivity.Status = Domain.Enums.TripActivityStatus.InProgress;
             return _tripActivityMapper.toResponseDTO(await _tripActivityRepository.UpdateAsync(tripActivity) ??

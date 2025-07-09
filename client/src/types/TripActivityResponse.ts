@@ -3,13 +3,13 @@ import { ImageResponse } from "./ImageResponse";
 import { LocationDTO } from "./LocationDTO";
 
 export interface TripActivityResponse {
-  Id: number;
-  Title: string;
-  StartDate: Date;
-  EndDate: Date;
-  Rate: number;
-  Comment: string;
-  Location: LocationDTO;
-  Status: TripActivityStatus;
-  Images: ImageResponse[];
+  id: number;
+  title: string;
+  startDate: Date;
+  endDate: Date;
+  rate: number;
+  comment: string;
+  location: LocationDTO;
+  status: TripActivityStatus;
+  images: ImageResponse[];
 }

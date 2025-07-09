@@ -22,11 +22,14 @@ export const getById = async (id: string | number) => {
 };
 
 export const createTrip = async (tripData: { title: string }) => {
-  const formData = new FormData();
-  formData.append("Title", tripData.title);
   const response = await apiCall("api/trips", {
     method: "POST",
-    body: formData,
+    body: JSON.stringify({
+      Title: tripData.title,
+    }),
+    headers: {
+      "Content-Type": "application/json",
+    },
   });
   return response.data;
 };
@@ -69,10 +72,35 @@ export const updateTrip = async (
   return reposnse.data;
 };
 
-export const startTrip = async (id: number, request: { startDate: Date }) => {
-  const formData = new FormData();
-  formData.append("StartDate", request.startDate.toISOString());
+export const startTrip = async (id: number, startDate: string | Date) => {
   const response = await apiCall(`api/trips/${id}/start`, {
+    method: "PUT",
+    body: JSON.stringify({
+      StartDate:
+        typeof startDate === "string" ? startDate : startDate.toISOString(),
+    }),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  return response.data;
+};
+
+export const finishTrip = async (
+  tripId: number,
+  endDate: string,
+  rate: number,
+  comment: string,
+  images?: File[]
+) => {
+  const formData = new FormData();
+  formData.append("EndDate", new Date(endDate).toISOString());
+  formData.append("Rating.Rate", rate.toString());
+  if (comment) formData.append("Rating.Comment", comment);
+  if (images && images.length > 0) {
+    images.forEach((img) => formData.append("Images", img));
+  }
+  const response = await apiCall(`api/trips/${tripId}/finish`, {
     method: "PUT",
     body: formData,
   });

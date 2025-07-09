@@ -1,8 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { TripResponse } from "../types/TripResponse";
 import { toast } from "react-toastify";
-import { getById, updateTrip } from "../services/TripService";
+import {
+  getById,
+  updateTrip,
+  startTrip,
+  finishTrip,
+} from "../services/TripService";
+import {
+  createTripActivity,
+  finishTripActivity,
+  cancelTripActivity,
+  deleteTripActivity,
+} from "../services/TripActivityService";
 import Button from "../components/UI/Button";
 import ImageGallery from "../components/ImageGallery";
 import Map from "../components/Map";
@@ -10,6 +21,14 @@ import H1 from "../components/UI/H1";
 import { TripStatus } from "../types/enums/TripStatus";
 import { CalendarDays, Plus, Trash2 } from "lucide-react";
 import TextInput from "../components/UI/TextInput";
+import { TripActivityStatus } from "../types/enums/TripActivityStatus";
+import CreateModal from "../components/CreateModal";
+import { title } from "process";
+import StartModal from "../components/StartModal";
+import { startTripActivity } from "../services/TripActivityService";
+import CancelModal from "../components/CancelModal";
+import FinishTripActivityModal from "../components/FinishTripActivityModal";
+import CompleteTripModal from "../components/CompleteTripModal";
 
 const TripDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -18,7 +37,9 @@ const TripDetails: React.FC = () => {
   const [statusColor, setStatusColor] = useState(
     "bg-yellow-200 text-yellow-800"
   );
+  const [currentActivity, setCurrentActivity] = useState(0);
   const [showEditModal, setShowEditModal] = useState(false);
+  const [showCreateActivity, setShowCreateActivity] = useState(false);
   const [editTitle, setEditTitle] = useState("");
   const [editDescription, setEditDescription] = useState("");
   const [imageLoading, setImageLoading] = useState(false);
@@ -27,6 +48,26 @@ const TripDetails: React.FC = () => {
     latitude: number;
     longitude: number;
   } | null>(null);
+  const [createActivityLoading, setCreateActivityLoading] = useState(false);
+
+  const [showStartTripModal, setShowStartTripModal] = useState(false);
+  const [startTripLoading, setStartTripLoading] = useState(false);
+  const [showCompleteTripModal, setShowCompleteTripModal] = useState(false);
+  const [CompleteLoading, setCompleteLoading] = useState(false);
+
+  const [showStartTripActivityModal, setShowStartTripActivityModal] =
+    useState(false);
+  const [showStartTripActivityLoading, setShowStartTripActivityLoading] =
+    useState(false);
+
+  const [showCancelActivityLoading, setShowCancelActivityLoading] =
+    useState(false);
+  const [showCancelActivityModal, setShowCancelActivityModal] = useState(false);
+
+  const [showCompleteActivityLoading, setShowCompleteActivityLoading] =
+    useState(false);
+  const [showCompleteActivityModal, setShowCompleteActivityModal] =
+    useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -55,6 +96,23 @@ const TripDetails: React.FC = () => {
       setEditDescription(trip.description);
     }
   }, [trip]);
+
+  const handleCreateActivty = async (title: string) => {
+    if (!trip) return;
+    setCreateActivityLoading(true);
+    console.log(title);
+    try {
+      await createTripActivity(trip.id, title);
+      const data = await getById(trip.id);
+      setTrip(data[0]);
+      setShowCreateActivity(false);
+      toast.success("Activity created");
+    } catch (err: any) {
+      toast.error(err.message);
+    } finally {
+      setCreateActivityLoading(false);
+    }
+  };
 
   const handleAddImages = async (files: FileList | null) => {
     if (!files || !trip) return;
@@ -137,6 +195,143 @@ const TripDetails: React.FC = () => {
   if (loading) return <div>Loading...</div>;
   if (!trip) return <div>Trip not found</div>;
 
+  function handleStartActivity(id: number): void {
+    setCurrentActivity(id);
+    setShowStartTripActivityModal(true);
+  }
+
+  function handleCancelActivity(id: number): void {
+    setCurrentActivity(id);
+    setShowCancelActivityModal(true);
+  }
+
+  function handleCompleteActivity(id: number): void {
+    setCurrentActivity(id);
+    setShowCompleteActivityModal(true);
+  }
+
+  const handleStartTrip = async (
+    startDate: string,
+    endDate?: string,
+    rate?: number,
+    comment?: string,
+    images?: File[]
+  ) => {
+    if (!trip) return;
+    setStartTripLoading(true);
+    try {
+      await startTrip(trip.id, startDate);
+      const data = await getById(trip.id);
+      setTrip(data[0]);
+      setShowStartTripModal(false);
+      toast.success("Trip started");
+    } catch (err: any) {
+      toast.error(err.message || "Failed to start trip");
+    } finally {
+      setStartTripLoading(false);
+    }
+  };
+
+  const handleCompleteTrip = async (
+    endDate: string,
+    rate: number,
+    comment: string,
+    images?: File[]
+  ) => {
+    if (!trip) return;
+    setCompleteLoading(true);
+    try {
+      await finishTrip(trip.id, endDate, rate, comment, images);
+      const data = await getById(trip.id);
+      setTrip(data[0]);
+      setShowCompleteTripModal(false);
+      toast.success("Trip completed");
+    } catch (err: any) {
+      toast.error(err.message || "Failed to complete trip");
+    } finally {
+      setCompleteLoading(false);
+    }
+  };
+
+  const handleCancelTripActivity = async (comment: string, id?: number) => {
+    setShowCancelActivityLoading(true);
+    try {
+      await cancelTripActivity(id ?? currentActivity, comment);
+      const data = await getById(id!);
+      setTrip(data[0]);
+      setShowCancelActivityModal(false);
+      toast.success("Trip activity cancelled");
+    } catch (err: any) {
+      toast.error(err.message || "Failed to cancel trip activity");
+    } finally {
+      setShowCancelActivityLoading(false);
+    }
+  };
+
+  const handleCompleteTripActivity = async (
+    endDate: string,
+    rate: number,
+    comment: string,
+    images?: File[]
+  ) => {
+    if (!currentActivity) return;
+    setShowCompleteActivityLoading(true);
+    try {
+      await finishTripActivity(currentActivity, endDate, rate, comment, images);
+      const data = await getById(id!);
+      setTrip(data[0]);
+      setShowCompleteActivityModal(false);
+      toast.success("Trip activity completed");
+    } catch (err: any) {
+      toast.error(err.message || "Failed to complete trip activity");
+    } finally {
+      setShowCompleteActivityLoading(false);
+    }
+  };
+
+  const handleStartTripActivity = async (
+    startDate: string,
+    endDate?: string,
+    rate?: number,
+    comment?: string,
+    images?: File[]
+  ) => {
+    if (!currentActivity) return;
+    setShowStartTripActivityLoading(true);
+    try {
+      await startTripActivity(
+        currentActivity,
+        startDate,
+        endDate,
+        images,
+        rate,
+        comment
+      );
+      const data = await getById(id!);
+      setTrip(data[0]);
+      setShowStartTripActivityModal(false);
+      toast.success("Trip activity started");
+    } catch (err: any) {
+      toast.error(err.message || "Failed to start trip activity");
+    } finally {
+      setShowStartTripActivityLoading(false);
+    }
+  };
+
+  const handleDeleteTripActivity = async (id: number) => {
+    setCompleteLoading(true);
+    try {
+      await deleteTripActivity(id);
+      const data = await getById(trip!.id);
+      setTrip(data[0]);
+      toast.success("Activity deleted");
+    } catch (err: any) {
+      toast.error(err.message || "Failed to delete activity");
+    } finally {
+      setCompleteLoading(false);
+    }
+  };
+
   return (
     <div className="bg-white rounded-xl shadow-md p-6 space-y-4">
       {/* Title and rating */}
@@ -144,16 +339,28 @@ const TripDetails: React.FC = () => {
         {/* Leva strana: Naslov + Start dugme */}
         <div className="flex items-center gap-4">
           <H1>{trip.title}</H1>
-          {(trip.status === "Planned" || trip.status === "InProgress") && (
+          {trip.status === "Planned" && (
             <Button
               type="button"
               variant="submit"
               className="text-sm px-3 py-1"
-              onClick={() => {
-                /* TODO: handle start trip */
-              }}
+              onClick={() => setShowStartTripModal(true)}
             >
               Start Trip
+            </Button>
+          )}
+
+          {trip.status === "InProgress" && (
+            <Button
+              type="button"
+              variant="submit"
+              className="text-sm px-3 py-1"
+              onClick={() => setShowCompleteTripModal(true)}
+              disabled={trip.tripActivities?.some(
+                (activity) => activity.status === "InProgress"
+              )}
+            >
+              Finish Trip
             </Button>
           )}
         </div>
@@ -239,41 +446,133 @@ const TripDetails: React.FC = () => {
       )}
 
       {/* Location Map */}
-      {trip.location && (
-        <div>
-          <h3 className="font-bold text-lg text-amber-700 pl-10 mb-2 flex items-center gap-2">
-            Location
-            {(trip.status === "Planned" || trip.status === "InProgress") && (
-              <Button
-                type="button"
-                variant="edit"
-                className="ml-4"
-                onClick={() => {
-                  setSelectedLocation({
-                    latitude: trip.location.latitude,
-                    longitude: trip.location.longitude,
-                  });
-                  setShowLocationModal(true);
-                }}
-              >
-                Change Location
-              </Button>
-            )}
-          </h3>
+      <div>
+        <h3 className="font-bold text-lg text-amber-700 pl-10 mb-2 flex items-center gap-2">
+          Location
+          <Button
+            type="button"
+            variant="edit"
+            className="ml-4"
+            onClick={() => {
+              if (trip.location) {
+                setSelectedLocation({
+                  latitude: trip.location.latitude,
+                  longitude: trip.location.longitude,
+                });
+              }
+              setShowLocationModal(true);
+            }}
+          >
+            Change Location
+          </Button>
+        </h3>
+        {!trip.location && (
+          <p className="text-gray-500 pl-10 italic mb-2">
+            Location not selected yet.
+          </p>
+        )}
+        {trip.location && (
           <Map
             latitude={trip.location.latitude}
             longitude={trip.location.longitude}
           />
-        </div>
-      )}
+        )}
+      </div>
 
       {/* Future Activities Section */}
       <div className="mt-6">
-        <h3 className="text-lg font-bold text-amber-700 pl-10 mb-2">
+        <h3 className="text-lg font-bold text-amber-700 mb-4 pl-10 flex items-center gap-2">
           Activities
+          <button
+            onClick={() => setShowCreateActivity(true)}
+            className="cursor-pointer bg-green-200 rounded-full text-green-600 hover:text-green-800"
+            title="Add Activity"
+          >
+            <Plus size={24} />
+          </button>
         </h3>
-        {/* TODO: Render trip activities cards here */}
-        <p className="text-sm text-gray-500 italic">Coming soon...</p>
+
+        {trip.tripActivities && trip.tripActivities.length > 0 ? (
+          <ul className="space-y-2 pl-10">
+            {trip.tripActivities.map((activity) => (
+              <li
+                key={activity.id}
+                className="flex items-center justify-between p-3 bg-amber-50 rounded-md shadow-sm border border-amber-200"
+              >
+                {/* Left: title + link */}
+                <Link
+                  to={`/trip-activities/${activity.id}`}
+                  className="text-amber-800 font-semibold hover:underline"
+                >
+                  {activity.title}
+                </Link>
+
+                {/* Middle: Status badge */}
+                <span
+                  className={`text-xs font-medium px-2 py-1 rounded-full ${
+                    (console.log(
+                      "status:",
+                      activity.status,
+                      TripActivityStatus.Completed
+                    ),
+                    activity.status === TripActivityStatus.Completed
+                      ? "bg-green-100 text-green-800"
+                      : activity.status === TripActivityStatus.Planned
+                      ? "bg-yellow-100 text-yellow-800"
+                      : activity.status === TripActivityStatus.InProgress
+                      ? "bg-blue-100 text-blue-800"
+                      : activity.status === TripActivityStatus.Cancelled
+                      ? "bg-gray-100 text-gray-500"
+                      : "")
+                  }`}
+                >
+                  {activity.status}
+                </span>
+
+                {/* Right: buttons based on status */}
+                <div className="flex gap-2">
+                  {activity.status === TripActivityStatus.Planned && (
+                    <>
+                      <button
+                        onClick={() => handleStartActivity(activity.id)}
+                        className="text-xs text-blue-700 border border-blue-300 px-2 py-1 rounded hover:bg-blue-50"
+                      >
+                        Start
+                      </button>
+                      <button
+                        onClick={() => handleCancelActivity(activity.id)}
+                        className="text-xs text-red-700 border border-red-300 px-2 py-1 rounded hover:bg-red-50"
+                      >
+                        Cancel
+                      </button>
+                    </>
+                  )}
+                  {activity.status === TripActivityStatus.InProgress && (
+                    <>
+                      <button
+                        onClick={() => handleCompleteActivity(activity.id)}
+                        className="text-xs text-green-700 border border-green-300 px-2 py-1 rounded hover:bg-green-50"
+                      >
+                        Complete
+                      </button>
+                      <button
+                        onClick={() => handleCancelActivity(activity.id)}
+                        className="text-xs text-red-700 border border-red-300 px-2 py-1 rounded hover:bg-red-50"
+                      >
+                        Cancel
+                      </button>
+                    </>
+                  )}
+                  {/* No buttons if Completed or Canceled */}
+                </div>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="text-sm text-gray-500 italic pl-10">
+            No activities yet.
+          </p>
+        )}
       </div>
 
       {showEditModal && (
@@ -333,16 +632,29 @@ const TripDetails: React.FC = () => {
             </h2>
             <div className="mb-4">
               <Map
-                latitude={selectedLocation?.latitude || trip.location.latitude}
+                latitude={
+                  selectedLocation?.latitude ??
+                  trip.location?.latitude ??
+                  44.7866 // Default latitude (Beograd)
+                }
                 longitude={
-                  selectedLocation?.longitude || trip.location.longitude
+                  selectedLocation?.longitude ??
+                  trip.location?.longitude ??
+                  20.4489 // Default longitude (Beograd)
                 }
                 onClick={(lat: number, lng: number) =>
                   setSelectedLocation({ latitude: lat, longitude: lng })
                 }
-                marker={selectedLocation || trip.location}
+                marker={
+                  selectedLocation ??
+                  trip.location ?? {
+                    latitude: 44.7866,
+                    longitude: 20.4489,
+                  }
+                }
               />
             </div>
+
             <div className="flex gap-4 justify-end">
               <Button
                 type="button"
@@ -363,6 +675,49 @@ const TripDetails: React.FC = () => {
           </div>
         </div>
       )}
+      <CreateModal
+        show={showCreateActivity}
+        onSave={handleCreateActivty}
+        onCancel={() => setShowCreateActivity(false)}
+        loading={createActivityLoading}
+      />
+      <StartModal
+        show={showStartTripModal}
+        type="trip"
+        loading={startTripLoading}
+        onCancel={() => setShowStartTripModal(false)}
+        onSave={handleStartTrip}
+      />
+      <StartModal
+        show={showStartTripActivityModal}
+        type="activity"
+        loading={showStartTripActivityLoading}
+        onCancel={() => setShowStartTripActivityModal(false)}
+        onSave={handleStartTripActivity}
+      />
+      <CancelModal
+        show={showCancelActivityModal}
+        loading={showCancelActivityLoading}
+        onCancel={() => setShowCancelActivityModal(false)}
+        onSave={handleCancelTripActivity}
+      />
+      <FinishTripActivityModal
+        show={showCompleteActivityModal}
+        loading={showCompleteActivityLoading}
+        onCancel={() => setShowCompleteActivityModal(false)}
+        onSave={handleCompleteTripActivity}
+      />
+      <CompleteTripModal
+        show={showCompleteTripModal}
+        loading={CompleteLoading}
+        onCancel={() => setShowCompleteTripModal(false)}
+        onSave={handleCompleteTrip}
+        activities={trip.tripActivities.filter(
+          (a) => a.status === TripActivityStatus.Planned
+        )}
+        onCancelActivity={handleCancelTripActivity}
+        onDeleteActivity={handleDeleteTripActivity}
+      />
     </div>
   );
 };

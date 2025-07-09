@@ -72,7 +72,7 @@
   {
     "ContainingType": "Api.Controllers.TripActivityController",
     "Method": "GetAll",
-    "RelativePath": "api/trip_activities",
+    "RelativePath": "api/trip-activities",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -88,7 +88,7 @@
   {
     "ContainingType": "Api.Controllers.TripActivityController",
     "Method": "Create",
-    "RelativePath": "api/trip_activities",
+    "RelativePath": "api/trip-activities",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -104,7 +104,7 @@
   {
     "ContainingType": "Api.Controllers.TripActivityController",
     "Method": "GetById",
-    "RelativePath": "api/trip_activities/{id}",
+    "RelativePath": "api/trip-activities/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -120,7 +120,7 @@
   {
     "ContainingType": "Api.Controllers.TripActivityController",
     "Method": "Update",
-    "RelativePath": "api/trip_activities/{id}",
+    "RelativePath": "api/trip-activities/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -181,7 +181,7 @@
   {
     "ContainingType": "Api.Controllers.TripActivityController",
     "Method": "Delete",
-    "RelativePath": "api/trip_activities/{id}",
+    "RelativePath": "api/trip-activities/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -197,7 +197,7 @@
   {
     "ContainingType": "Api.Controllers.TripActivityController",
     "Method": "CancelActivity",
-    "RelativePath": "api/trip_activities/{id}/cancel",
+    "RelativePath": "api/trip-activities/{id}/cancel",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -218,7 +218,7 @@
   {
     "ContainingType": "Api.Controllers.TripActivityController",
     "Method": "FinishActivity",
-    "RelativePath": "api/trip_activities/{id}/finish",
+    "RelativePath": "api/trip-activities/{id}/finish",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -229,9 +229,49 @@
         "IsRequired": true
       },
       {
-        "Name": "request",
-        "Type": "Application.DTOs.TripActivityRequest",
-        "IsRequired": true
+        "Name": "Title",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "StartDate",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "EndDate",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "Rate",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "Comment",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Location.Latitude",
+        "Type": "System.Double",
+        "IsRequired": false
+      },
+      {
+        "Name": "Location.Longitude",
+        "Type": "System.Double",
+        "IsRequired": false
+      },
+      {
+        "Name": "TripId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "Images",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile[]",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
@@ -239,7 +279,7 @@
   {
     "ContainingType": "Api.Controllers.TripActivityController",
     "Method": "StartActivity",
-    "RelativePath": "api/trip_activities/{id}/start",
+    "RelativePath": "api/trip-activities/{id}/start",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -250,9 +290,49 @@
         "IsRequired": true
       },
       {
-        "Name": "request",
-        "Type": "Application.DTOs.TripActivityRequest",
-        "IsRequired": true
+        "Name": "Title",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "StartDate",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "EndDate",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "Rate",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "Comment",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Location.Latitude",
+        "Type": "System.Double",
+        "IsRequired": false
+      },
+      {
+        "Name": "Location.Longitude",
+        "Type": "System.Double",
+        "IsRequired": false
+      },
+      {
+        "Name": "TripId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "Images",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile[]",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
@@ -410,9 +490,64 @@
         "IsRequired": true
       },
       {
-        "Name": "request",
-        "Type": "Application.DTOs.UpdateTripRequest",
-        "IsRequired": true
+        "Name": "Title",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Description",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Images",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile[]",
+        "IsRequired": false
+      },
+      {
+        "Name": "ImagesToDelete",
+        "Type": "System.String[]",
+        "IsRequired": false
+      },
+      {
+        "Name": "StartDate",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "EndDate",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "Status",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Location.Latitude",
+        "Type": "System.Double",
+        "IsRequired": false
+      },
+      {
+        "Name": "Location.Longitude",
+        "Type": "System.Double",
+        "IsRequired": false
+      },
+      {
+        "Name": "Rating.Rate",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "Rating.Comment",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Rating.tripId",
+        "Type": "System.Int32",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []

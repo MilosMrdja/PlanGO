@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
 {
-    [Route("api/trip_activities")]
+    [Route("api/trip-activities")]
     [ApiController]
     [Authorize]
     public class TripActivityController : ValidateController
@@ -52,7 +52,7 @@ namespace Api.Controllers
             return Ok(new ApiResponse<TripActivityResponse>(response));
         }
         [HttpPut("{id}/start")]
-        public async Task<IActionResult> StartActivity(int id, [FromBody] TripActivityRequest request)
+        public async Task<IActionResult> StartActivity(int id, [FromForm] TripActivityRequest request)
         {
             
             var response = await _tripActivityService.StartActivity(id, request);
@@ -60,7 +60,7 @@ namespace Api.Controllers
         }
 
         [HttpPut("{id}/finish")]
-        public async Task<IActionResult> FinishActivity(int id, [FromBody] TripActivityRequest request)
+        public async Task<IActionResult> FinishActivity(int id, [FromForm] TripActivityRequest request)
         {
             
             var response = await _tripActivityService.FinishActivity(id, request);

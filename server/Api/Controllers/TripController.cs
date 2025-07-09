@@ -50,7 +50,7 @@ namespace Api.Controllers
         }
 
         [HttpPut("{id}/finish")]
-        public async Task<IActionResult> FinishTrip(int id, [FromBody] UpdateTripRequest request)
+        public async Task<IActionResult> FinishTrip(int id, [FromForm] UpdateTripRequest request)
         {
             if (!ModelState.IsValid)
             {

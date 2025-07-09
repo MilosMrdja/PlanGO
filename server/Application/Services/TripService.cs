@@ -111,6 +111,11 @@ namespace Application.Services
                 throw new Exception("Trip must be in progress");
             }
 
+            if(await _tripActivityRepository.GetCountActiveActivities(trip.Id) > 0)
+            {
+                throw new Exception("Trip is not finished, you still have active activites");
+            }
+
             // trip must contains rating
             if (request.Rating != null)
             {
