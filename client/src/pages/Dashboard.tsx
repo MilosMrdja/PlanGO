@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Sidebar from "../components/Sidebar";
 import FilterModal from "../components/FilterModal";
 import { TripCard as TripCardResponse } from "../types/TripCard";
-import { getAll as getAllTrips } from "../services/TripService";
+import { getAll, getAll as getAllTrips } from "../services/TripService";
 import { toast } from "react-toastify";
 import TripCard from "../components/TripCard";
 import { Routes, Route } from "react-router-dom";
@@ -12,6 +12,9 @@ import { createTrip } from "../services/TripService";
 import { Plus } from "lucide-react";
 import { useLocation } from "react-router-dom";
 import TripActivityDetails from "./ActivityDetails";
+import { FilterTripeRequest } from "../types/TripFilterRequest";
+import { TripStatus } from "../types/enums/TripStatus";
+import { Search, Filter } from "lucide-react";
 
 const Dashboard: React.FC = () => {
   const [showFilter, setShowFilter] = useState(false);
@@ -19,6 +22,14 @@ const Dashboard: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [showCreateTrip, setShowCreateTrip] = useState(false);
   const [createTripLoading, setCreateTripLoading] = useState(false);
+  const [searchTitle, setSearchTitle] = useState("");
+  const [lastFilters, setLastFilters] = useState<{
+    Title?: string;
+    Status?: TripStatus;
+    StartDate?: string;
+    EndDate?: string;
+    Rate?: number;
+  }>({});
   const location = useLocation();
   const handleCreateTrip = async (title: string) => {
     setCreateTripLoading(true);
@@ -53,6 +64,50 @@ const Dashboard: React.FC = () => {
     fetchTrips();
   }, [location]);
 
+  const filterTrips = async (filter: {
+    Title?: string;
+    Status?: TripStatus;
+    StartDate?: string;
+    EndDate?: string;
+    Rate?: number;
+  }) => {
+    setLoading(true);
+    try {
+      const data = await getAllTrips(filter);
+      setTrips(data);
+      setLastFilters(filter);
+    } catch (error) {
+      toast.error("Error: fetching trips");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSearch = () => {
+    const filters = { ...lastFilters, Title: searchTitle || undefined };
+    filterTrips(filters);
+  };
+  const handleSearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
+  };
+
+  // When FilterModal applies, combine with current searchTitle
+  const handleApplyFilter = (filters: {
+    Title?: string;
+    Status?: TripStatus;
+    StartDate?: string;
+    EndDate?: string;
+    Rate?: number;
+  }) => {
+    const combined = {
+      ...filters,
+      Title: searchTitle || filters.Title || undefined,
+    };
+    filterTrips(combined);
+  };
+
   return (
     <div className="flex min-h-screen bg-gray-100">
       <Sidebar />
@@ -63,17 +118,30 @@ const Dashboard: React.FC = () => {
             element={
               <>
                 <div className="flex items-center justify-between mb-6">
-                  <input
-                    type="text"
-                    placeholder="Pretraži putovanja..."
-                    className="w-1/2 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-                  />
-                  <button
-                    onClick={() => setShowFilter(true)}
-                    className="ml-4 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors duration-200"
-                  >
-                    Filteri
-                  </button>
+                  <div className="flex items-center w-1/2">
+                    <input
+                      type="text"
+                      placeholder="Search trips"
+                      className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                      value={searchTitle}
+                      onChange={(e) => setSearchTitle(e.target.value)}
+                      onKeyDown={handleSearchKeyDown}
+                    />
+                    <button
+                      onClick={handleSearch}
+                      className="ml-2 p-2 rounded-full bg-amber-800 text-white hover:bg-amber-600 transition-colors duration-200 flex items-center justify-center"
+                      title="Search"
+                    >
+                      <Search size={20} />
+                    </button>
+                    <button
+                      onClick={() => setShowFilter(true)}
+                      className="ml-2 p-2 rounded-full bg-gray-200 text-gray-700 hover:bg-gray-300 transition-colors duration-200 flex items-center justify-center"
+                      title="Filter"
+                    >
+                      <Filter size={20} />
+                    </button>
+                  </div>
                   <button
                     onClick={() => setShowCreateTrip(true)}
                     className="cursor-pointer bg-green-200 rounded-full text-green-600 hover:text-green-800"
@@ -88,7 +156,16 @@ const Dashboard: React.FC = () => {
                   ))}
                 </div>
                 {showFilter && (
-                  <FilterModal onClose={() => setShowFilter(false)} />
+                  <FilterModal
+                    onClose={() => setShowFilter(false)}
+                    onApplyFilter={handleApplyFilter}
+                    onReset={() => {
+                      setLastFilters({});
+                      setSearchTitle("");
+                      filterTrips({});
+                    }}
+                    initialFilters={lastFilters}
+                  />
                 )}
               </>
             }

@@ -16,7 +16,7 @@ namespace Infrastructure.Repositories
         {
         }
 
-        public async Task<List<Trip>> Filter(string title, TripStatus? status, DateTime? startDate, int rate, int userId)
+        public async Task<List<Trip>> Filter(string title, TripStatus? status, DateTime? startDate, DateTime? endDate, int rate, int userId)
         {
             var query = _context.Trips.AsQueryable();
 
@@ -30,6 +30,8 @@ namespace Infrastructure.Repositories
 
             if (startDate != null)
                 query = query.Where(x => x.StartDate >= startDate);
+            if (endDate != null)
+                query = query.Where(x => x.EndDate <= endDate);
 
             if(rate != 0)
             {

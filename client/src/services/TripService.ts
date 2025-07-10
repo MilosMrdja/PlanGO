@@ -2,12 +2,25 @@ import { Meta } from "react-router-dom";
 import { TripCard } from "../types/TripCard";
 import { FilterTripeRequest } from "../types/TripFilterRequest";
 import { apiCall } from "./api";
+import { TripStatus } from "../types/enums/TripStatus";
 
-export const getAll = async (
-  filter: FilterTripeRequest
-): Promise<TripCard[]> => {
-  const query = new URLSearchParams(filter as any).toString();
-  //console.log(query);
+export const getAll = async (filter: {
+  Title?: string;
+  Status?: TripStatus;
+  StartDate?: string;
+  EndDate?: string;
+  Rate?: number;
+}): Promise<TripCard[]> => {
+  const filterQ: Record<string, string> = {};
+
+  if (filter.Title != null) filterQ.Title = filter.Title;
+  if (filter.Status != null) filterQ.Status = filter.Status.toString();
+  if (filter.StartDate != null) filterQ.StartDate = filter.StartDate;
+  if (filter.EndDate != null) filterQ.EndDate = filter.EndDate;
+  if (filter.Rate != null) filterQ.Rate = filter.Rate.toString();
+
+  const query = new URLSearchParams(filterQ).toString();
+  console.log(query);
   const reposnse = await apiCall(`api/trips?${query}`, {
     method: "GET",
   });

@@ -12,6 +12,7 @@ namespace Application.DTOs
         public string? Title {  get; set; }
         public TripStatus? Status { get; set; }
         public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
         public int Rate {  get; set; }
     }
 }
