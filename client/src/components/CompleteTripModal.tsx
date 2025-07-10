@@ -34,6 +34,7 @@ const CompleteTripModal: React.FC<CompleteTripModalProps> = ({
   const today = new Date().toISOString().slice(0, 10);
   const [endDate, setEndDate] = useState(today);
   const [rate, setRate] = useState<number>(0);
+  const [calculateActivities, setCalculateActivities] = useState(false);
   const [comment, setComment] = useState("");
   const [images, setImages] = useState<File[]>([]);
   const [touched, setTouched] = useState(false);
@@ -41,7 +42,9 @@ const CompleteTripModal: React.FC<CompleteTripModalProps> = ({
   if (!show) return null;
 
   const isValid =
-    endDate && rate >= 1 && rate <= 5 && comment.trim().length > 0;
+    endDate &&
+    (calculateActivities || (rate >= 1 && rate <= 5)) &&
+    comment.trim().length > 0;
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-[9999]">
@@ -58,7 +61,7 @@ const CompleteTripModal: React.FC<CompleteTripModalProps> = ({
             e.preventDefault();
             setTouched(true);
             if (!isValid) return;
-            onSave(endDate, rate, comment, images);
+            onSave(endDate, calculateActivities ? 0 : rate, comment, images);
           }}
           className="space-y-4"
         >
@@ -78,29 +81,45 @@ const CompleteTripModal: React.FC<CompleteTripModalProps> = ({
             <label className="block text-gray-700 font-medium mb-2">
               Rate (1-5)
             </label>
-            <div className="flex gap-1">
-              {[1, 2, 3, 4, 5].map((star) => (
-                <button
-                  key={star}
-                  type="button"
-                  onClick={() => {
-                    setRate(star);
-                    setTouched(true);
+            <div className="flex items-center gap-4">
+              <div className="flex gap-1">
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <button
+                    key={star}
+                    type="button"
+                    onClick={() => !calculateActivities && setRate(star)}
+                    className="focus:outline-none"
+                    title={`Rate ${star}`}
+                    disabled={calculateActivities}
+                  >
+                    <Star
+                      size={28}
+                      className={
+                        Number(star) <= Number(rate)
+                          ? "text-yellow-400 fill-yellow-400"
+                          : "text-gray-400"
+                      }
+                    />
+                  </button>
+                ))}
+              </div>
+              <label className="flex items-center gap-2 ml-4">
+                <input
+                  type="checkbox"
+                  checked={calculateActivities}
+                  onChange={(e) => {
+                    setCalculateActivities(e.target.checked);
+                    if (e.target.checked) setRate(0);
                   }}
-                  className="focus:outline-none"
-                  title={`Rate ${star}`}
-                >
-                  <Star
-                    size={28}
-                    className={
-                      Number(star) <= Number(rate)
-                        ? "text-yellow-400 fill-yellow-400"
-                        : "text-gray-400"
-                    }
-                  />
-                </button>
-              ))}
+                />
+                Calculate activities
+              </label>
             </div>
+            {touched && !calculateActivities && (rate < 1 || rate > 5) && (
+              <span className="text-red-500 text-xs">
+                Rate must be between 1 and 5.
+              </span>
+            )}
           </div>
           <div>
             <label className="block text-gray-700 font-medium mb-1">

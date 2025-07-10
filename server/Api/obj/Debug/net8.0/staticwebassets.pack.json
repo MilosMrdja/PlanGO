@@ -9,6 +9,10 @@
       "PackagePath": "staticwebassets\\images\\uploads\\23ed614e-3183-4455-91cf-03bdf4197361.jpg"
     },
     {
+      "Id": "C:\\Users\\milos\\Desktop\\PlanGo App\\server\\Api\\wwwroot\\images\\uploads\\426e7a8f-9ca1-4423-869d-2abae742ed2c.png",
+      "PackagePath": "staticwebassets\\images\\uploads\\426e7a8f-9ca1-4423-869d-2abae742ed2c.png"
+    },
+    {
       "Id": "C:\\Users\\milos\\Desktop\\PlanGo App\\server\\Api\\wwwroot\\images\\uploads\\4c2d0ea7-4cd4-4f16-8e7a-b4219f2a8fba.jpg",
       "PackagePath": "staticwebassets\\images\\uploads\\4c2d0ea7-4cd4-4f16-8e7a-b4219f2a8fba.jpg"
     },
@@ -23,6 +27,10 @@
     {
       "Id": "C:\\Users\\milos\\Desktop\\PlanGo App\\server\\Api\\wwwroot\\images\\uploads\\6196bf65-a742-43de-a86f-2b0eb8f7d937.png",
       "PackagePath": "staticwebassets\\images\\uploads\\6196bf65-a742-43de-a86f-2b0eb8f7d937.png"
+    },
+    {
+      "Id": "C:\\Users\\milos\\Desktop\\PlanGo App\\server\\Api\\wwwroot\\images\\uploads\\888ecb2e-43d0-464d-9aa1-ef95860868d5.png",
+      "PackagePath": "staticwebassets\\images\\uploads\\888ecb2e-43d0-464d-9aa1-ef95860868d5.png"
     },
     {
       "Id": "C:\\Users\\milos\\Desktop\\PlanGo App\\server\\Api\\wwwroot\\images\\uploads\\922fc268-ad6c-43fc-a3c5-0156008f023b.jpg",
@@ -51,6 +59,10 @@
     {
       "Id": "C:\\Users\\milos\\Desktop\\PlanGo App\\server\\Api\\wwwroot\\images\\uploads\\d24cf61f-9431-46a1-879f-8066a0d5c70c.jpg",
       "PackagePath": "staticwebassets\\images\\uploads\\d24cf61f-9431-46a1-879f-8066a0d5c70c.jpg"
+    },
+    {
+      "Id": "C:\\Users\\milos\\Desktop\\PlanGo App\\server\\Api\\wwwroot\\images\\uploads\\d265d4ee-5ccb-4d6a-92ba-45d96cd7cadd.png",
+      "PackagePath": "staticwebassets\\images\\uploads\\d265d4ee-5ccb-4d6a-92ba-45d96cd7cadd.png"
     },
     {
       "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.Api.Microsoft.AspNetCore.StaticWebAssets.props",

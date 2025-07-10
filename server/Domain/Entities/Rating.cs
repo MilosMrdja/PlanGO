@@ -15,7 +15,7 @@ namespace Domain.Entities
         [Key]
         public int Id { get; set; }
         [Required, Range(1, 5)]
-        public int Rate { get; set; }
+        public double Rate { get; set; }
         [Required]
         public string Comment {  get; set; }
 

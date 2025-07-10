@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "Cb8V2rPG2gAkVF2oJq10cvzyAvtOFocEg4pQ0FB7eHE=",
+  "Hash": "9p/PwkSYabg4eZYwBqWmhPNu+SVhQKJX/SjKJRtQzdA=",
   "Source": "Api",
   "BasePath": "_content/Api",
   "Mode": "Default",
@@ -53,6 +53,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\uploads\\23ed614e-3183-4455-91cf-03bdf4197361.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\milos\\Desktop\\PlanGo App\\server\\Api\\wwwroot\\images\\uploads\\426e7a8f-9ca1-4423-869d-2abae742ed2c.png",
+      "SourceId": "Api",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\milos\\Desktop\\PlanGo App\\server\\Api\\wwwroot\\",
+      "BasePath": "_content/Api",
+      "RelativePath": "images/uploads/426e7a8f-9ca1-4423-869d-2abae742ed2c.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\uploads\\426e7a8f-9ca1-4423-869d-2abae742ed2c.png"
     },
     {
       "Identity": "C:\\Users\\milos\\Desktop\\PlanGo App\\server\\Api\\wwwroot\\images\\uploads\\4c2d0ea7-4cd4-4f16-8e7a-b4219f2a8fba.jpg",
@@ -129,6 +148,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\uploads\\6196bf65-a742-43de-a86f-2b0eb8f7d937.png"
+    },
+    {
+      "Identity": "C:\\Users\\milos\\Desktop\\PlanGo App\\server\\Api\\wwwroot\\images\\uploads\\888ecb2e-43d0-464d-9aa1-ef95860868d5.png",
+      "SourceId": "Api",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\milos\\Desktop\\PlanGo App\\server\\Api\\wwwroot\\",
+      "BasePath": "_content/Api",
+      "RelativePath": "images/uploads/888ecb2e-43d0-464d-9aa1-ef95860868d5.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\uploads\\888ecb2e-43d0-464d-9aa1-ef95860868d5.png"
     },
     {
       "Identity": "C:\\Users\\milos\\Desktop\\PlanGo App\\server\\Api\\wwwroot\\images\\uploads\\922fc268-ad6c-43fc-a3c5-0156008f023b.jpg",
@@ -262,6 +300,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\uploads\\d24cf61f-9431-46a1-879f-8066a0d5c70c.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\milos\\Desktop\\PlanGo App\\server\\Api\\wwwroot\\images\\uploads\\d265d4ee-5ccb-4d6a-92ba-45d96cd7cadd.png",
+      "SourceId": "Api",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\milos\\Desktop\\PlanGo App\\server\\Api\\wwwroot\\",
+      "BasePath": "_content/Api",
+      "RelativePath": "images/uploads/d265d4ee-5ccb-4d6a-92ba-45d96cd7cadd.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\uploads\\d265d4ee-5ccb-4d6a-92ba-45d96cd7cadd.png"
     }
   ]
 }

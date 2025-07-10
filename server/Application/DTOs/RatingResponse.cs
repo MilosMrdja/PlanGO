@@ -11,7 +11,7 @@ namespace Application.DTOs
     {
         public int Id {  get; set; }
         [Range(1, 5)]
-        public int Rate { get; set; }
+        public double? Rate { get; set; }
         public string Comment {  get; set; }
     }
 }

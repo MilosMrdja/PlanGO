@@ -19,7 +19,7 @@ import ImageGallery from "../components/ImageGallery";
 import Map from "../components/Map";
 import H1 from "../components/UI/H1";
 import { TripStatus } from "../types/enums/TripStatus";
-import { CalendarDays, Plus, Trash2 } from "lucide-react";
+import { CalendarDays, Plus, Star, Trash2 } from "lucide-react";
 import TextInput from "../components/UI/TextInput";
 import { TripActivityStatus } from "../types/enums/TripActivityStatus";
 import CreateModal from "../components/CreateModal";
@@ -348,8 +348,17 @@ const TripDetails: React.FC = () => {
       {/* Title and rating */}
       <div className="flex items-center justify-between flex-wrap gap-4">
         {/* Leva strana: Naslov */}
-        <div className="flex-1">
+        <div className="flex-1 items-center gap-2">
           <H1>{trip.title}</H1>
+
+          {trip.status === "Completed" && (
+            <div className="flex items-center text-amber-500 text-xl font-semibold">
+              <Star className=" ml-4 w-5 h-5 fill-amber-500" />
+              <span className="ml-1 text-base text-black">
+                {trip.rating.rate?.toFixed(2) ?? "N/A"}
+              </span>
+            </div>
+          )}
         </div>
 
         {/* Sredina: Dugme */}
@@ -403,6 +412,14 @@ const TripDetails: React.FC = () => {
         Description
       </h3>
       <p className="text-gray-700 pl-10 mb-2">{trip.description}</p>
+      {trip.status === TripStatus.Completed && (
+        <>
+          <h3 className="font-bold text-lg text-amber-700 pl-10 mb-2 flex items-center gap-2">
+            Comment
+          </h3>
+          <p className="text-gray-700 pl-10 mb-2">{trip.rating.comment}</p>
+        </>
+      )}
 
       {/* Images */}
       <GalleryComponent

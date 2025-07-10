@@ -5,7 +5,7 @@ import Button from "../components/UI/Button";
 import ImageGallery from "../components/ImageGallery";
 import Map from "../components/Map";
 import H1 from "../components/UI/H1";
-import { CalendarDays } from "lucide-react";
+import { CalendarDays, Star } from "lucide-react";
 import StartModal from "../components/StartModal";
 import {
   finishTripActivity,
@@ -198,8 +198,16 @@ const TripActivityDetails: React.FC = () => {
       <div className="bg-white rounded-xl shadow-md p-6 space-y-4">
         {/* Title and actions */}
         <div className="flex items-center justify-between flex-wrap gap-4">
-          <div className="flex-1">
+          <div className="flex-1 items-center gap-2">
             <H1>{activity.title}</H1>
+            {activity.status === "Completed" && (
+              <div className="flex items-center text-amber-500 text-xl font-semibold">
+                <Star className=" ml-4 w-5 h-5 fill-amber-500" />
+                <span className="ml-1 text-base text-black">
+                  {activity.rate ?? "N/A"}
+                </span>
+              </div>
+            )}
           </div>
           <div className="flex justify-center gap-6 flex-shrink-0">
             <ActivityActions
@@ -225,6 +233,17 @@ const TripActivityDetails: React.FC = () => {
             />
           </div>
         </div>
+
+        {/*comment*/}
+        {(activity.status === "Completed" ||
+          activity.status === "Cancelled") && (
+          <>
+            <h3 className="font-bold text-lg text-amber-700 pl-10 mb-2 flex items-center gap-2">
+              Comment
+            </h3>
+            <p className="text-gray-700 pl-10 mb-2">{activity.comment}</p>
+          </>
+        )}
 
         {/* Images */}
         <GalleryComponent

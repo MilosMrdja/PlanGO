@@ -121,7 +121,7 @@ namespace Application.Services
             {
                 if(request.Rating.Rate == 0)
                 {
-                    request.Rating.Rate = (int)await _tripActivityRepository.GetAverageRateByTrip(trip.Id);
+                    request.Rating.Rate = await _tripActivityRepository.GetAverageRateByTrip(trip.Id);
                 }
                 request.Rating.tripId = trip.Id;
                 trip.Rating = await _ratingService.Create(request.Rating);

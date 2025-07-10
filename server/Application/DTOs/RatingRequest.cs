@@ -10,7 +10,7 @@ namespace Application.DTOs
     public class RatingRequest
     {
         [Range(0,5)]
-        public int Rate {  get; set; }
+        public double? Rate {  get; set; }
         public string Comment {  get; set; }
 
         public int tripId {  get; set; }

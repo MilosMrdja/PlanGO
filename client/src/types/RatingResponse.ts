@@ -1,5 +1,5 @@
 export interface RatingResponse {
-  Id: number;
-  Rate: number;
-  Comment: number;
+  id: number;
+  rate: number;
+  comment: number;
 }
