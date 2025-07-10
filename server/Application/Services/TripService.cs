@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using Application.DTOs;
@@ -20,12 +21,15 @@ namespace Application.Services
         private readonly ITripRepository _tripRepository;
         private readonly ITripActivityRepository _tripActivityRepository;
         private readonly ITripMapper _tripMapper;
+        private readonly IPdfService _pdfService;
         private readonly AuthService _authService;
         private readonly ImageService _imageService;
         private readonly LocationServices _locationServices;
         private readonly RatingService _ratingService;
+        private readonly LocationResolver _locationResolver;
         public TripService(ITripRepository tripRepository, AuthService auth, ImageService imageService,
-            ITripMapper tripMapper, LocationServices locationServices, RatingService ratingService, ITripActivityRepository tripActivityRepository)
+            ITripMapper tripMapper, LocationServices locationServices, RatingService ratingService, ITripActivityRepository tripActivityRepository,
+            IPdfService pdfService, LocationResolver locationResolver)
         {
             _tripRepository = tripRepository;
             _authService = auth;
@@ -34,6 +38,8 @@ namespace Application.Services
             _locationServices = locationServices;
             _ratingService = ratingService;
             _tripActivityRepository = tripActivityRepository;
+            _pdfService = pdfService;
+            _locationResolver = locationResolver;
         }
 
         public async Task<TripResponse?> GetById(int id)
@@ -115,6 +121,22 @@ namespace Application.Services
             {
                 throw new Exception("Trip is not finished, you still have active activities");
             }
+            if (request.EndDate != null)
+            {
+                if (request.EndDate < trip.StartDate)
+                {
+                    throw new Exception("End date must be after start date");
+                }
+                TripActivity? tripActivity = await _tripActivityRepository.GetLastCompleted(trip.Id);
+                if (tripActivity != null)
+                {
+                    if (tripActivity.EndDate > request.EndDate)
+                    {
+                        throw new Exception("Trip must be completed after trip activity end date");
+                    }
+                }
+                trip.EndDate = DateTime.SpecifyKind((DateTime)request.EndDate, DateTimeKind.Utc);
+            }
 
             // trip must contains rating
             if (request.Rating != null)
@@ -122,6 +144,7 @@ namespace Application.Services
                 if(request.Rating.Rate == 0)
                 {
                     request.Rating.Rate = await _tripActivityRepository.GetAverageRateByTrip(trip.Id);
+                    if(request.Rating.Rate <= 0) { request.Rating.Rate = 1; }
                 }
                 request.Rating.tripId = trip.Id;
                 trip.Rating = await _ratingService.Create(request.Rating);
@@ -137,22 +160,7 @@ namespace Application.Services
                 await _imageService.UploadImages(request.Images, id, true);
             }
 
-            if (request.EndDate != null)
-            {
-                if(request.EndDate < trip.StartDate)
-                {
-                    throw new Exception("End date must be after start date");
-                }
-                TripActivity? tripActivity = await _tripActivityRepository.GetLastCompleted(trip.Id);
-                if (tripActivity != null)
-                {
-                    if(tripActivity.EndDate > request.EndDate)
-                    {
-                        throw new Exception("Trip must be completed after trip activity end date");
-                    }
-                }
-                trip.EndDate = DateTime.SpecifyKind((DateTime)request.EndDate, DateTimeKind.Utc);
-            }
+
 
             trip.Status = TripStatus.Completed;
             var updatedTrip = await _tripRepository.UpdateAsync(trip) ?? throw new Exception("Error in Database");
@@ -212,7 +220,29 @@ namespace Application.Services
             return trips.Select(t => _tripMapper.toResponseDTO(t)).ToList();
 
         }
+        public async Task<(string FileName, byte[] FileBytes)> GenerateTripPdfAsync(int id)
+        {
+            var userId = _authService.GetCurrentUserId() ?? throw new Exception("Error occured - current user");
+            Trip trip = await _tripRepository.GetFull(id, int.Parse(userId)) ?? throw new Exception("Trip not found");
+            if(trip.Status != TripStatus.Completed)
+            {
+                throw new Exception("Trip must be completed, then you can download report");
+            }
+            string? city = null;
+            string? country = null;
 
+            if (trip.Location != null)
+            {
+                (city, country) = await _locationResolver.GetLocationAsync(
+                    trip.Location.Coordinates.Y,
+                    trip.Location.Coordinates.X
+                );
+            }
+
+            var pdfBytes = await _pdfService.GenerateTripPdfAsync(trip, city, country);
+            var fileName = $"Trip-{trip.Title}.pdf";
+            return (fileName, pdfBytes);
+        }
 
 
     }

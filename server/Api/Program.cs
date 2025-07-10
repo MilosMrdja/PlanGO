@@ -15,6 +15,7 @@ using Application.Mappers;
 using NetTopologySuite;
 using Api.Controllers;
 using Microsoft.AspNetCore.Mvc;
+using Application.utils;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -44,6 +45,8 @@ builder.Services.AddScoped<LocationServices>();
 builder.Services.AddScoped<RatingService>();
 builder.Services.AddScoped<TripActivityService>();
 builder.Services.AddScoped<JwtGenerator>();
+builder.Services.AddScoped<LocationResolver>();
+builder.Services.AddScoped<IPdfService, PdfService>();
 // repos
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "PnRjr90C/2MgdpwPAIc7G4B/uG+em7hNLWsZen1+FivKJ221slemOO5WDwkuXyU+1SXwtzq8mNaQdukOq64eDg==",
+  "dgSpecHash": "YEARyBaA7NistaEhZ5Bb58gNfU1eKg3iSW1ivPHmXl/o+Z7CivdNx3EWSyOf9W5bewvACVO1L4BeKe7upaGPAQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\milos\\Desktop\\PlanGo App\\server\\Api\\Api.csproj",
   "expectedPackageFiles": [
@@ -51,6 +51,10 @@
     "C:\\Users\\milos\\.nuget\\packages\\npgsql.entityframeworkcore.postgresql\\9.0.4\\npgsql.entityframeworkcore.postgresql.9.0.4.nupkg.sha512",
     "C:\\Users\\milos\\.nuget\\packages\\npgsql.entityframeworkcore.postgresql.nettopologysuite\\9.0.4\\npgsql.entityframeworkcore.postgresql.nettopologysuite.9.0.4.nupkg.sha512",
     "C:\\Users\\milos\\.nuget\\packages\\npgsql.nettopologysuite\\9.0.3\\npgsql.nettopologysuite.9.0.3.nupkg.sha512",
+    "C:\\Users\\milos\\.nuget\\packages\\pdfsharpcore\\1.3.67\\pdfsharpcore.1.3.67.nupkg.sha512",
+    "C:\\Users\\milos\\.nuget\\packages\\sharpziplib\\1.4.2\\sharpziplib.1.4.2.nupkg.sha512",
+    "C:\\Users\\milos\\.nuget\\packages\\sixlabors.fonts\\1.0.0-beta17\\sixlabors.fonts.1.0.0-beta17.nupkg.sha512",
+    "C:\\Users\\milos\\.nuget\\packages\\sixlabors.imagesharp\\1.0.4\\sixlabors.imagesharp.1.0.4.nupkg.sha512",
     "C:\\Users\\milos\\.nuget\\packages\\swashbuckle.aspnetcore\\6.4.0\\swashbuckle.aspnetcore.6.4.0.nupkg.sha512",
     "C:\\Users\\milos\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.4.0\\swashbuckle.aspnetcore.swagger.6.4.0.nupkg.sha512",
     "C:\\Users\\milos\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.4.0\\swashbuckle.aspnetcore.swaggergen.6.4.0.nupkg.sha512",

@@ -1,6 +1,10 @@
 export const API_BASE_URL = "https://localhost:7249/";
 
-export const apiCall = async (endpoint: string, options: RequestInit = {}) => {
+export const apiCall = async (
+  endpoint: string,
+  options: RequestInit = {},
+  isBlob = false
+) => {
   const url = `${API_BASE_URL}${endpoint}`;
   const token = localStorage.getItem("accessToken");
   const headers = new Headers(options.headers || {});
@@ -33,6 +37,9 @@ export const apiCall = async (endpoint: string, options: RequestInit = {}) => {
   }
   if (response.status === 204) {
     return null;
+  }
+  if (isBlob) {
+    return response.blob();
   }
 
   return response.json();

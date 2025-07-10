@@ -7,6 +7,7 @@ import {
   updateTrip,
   startTrip,
   finishTrip,
+  generatePdf,
 } from "../services/TripService";
 import {
   createTripActivity,
@@ -19,7 +20,7 @@ import ImageGallery from "../components/ImageGallery";
 import Map from "../components/Map";
 import H1 from "../components/UI/H1";
 import { TripStatus } from "../types/enums/TripStatus";
-import { CalendarDays, Plus, Star, Trash2 } from "lucide-react";
+import { CalendarDays, Plus, Star, Trash2, Download } from "lucide-react";
 import TextInput from "../components/UI/TextInput";
 import { TripActivityStatus } from "../types/enums/TripActivityStatus";
 import CreateModal from "../components/CreateModal";
@@ -343,12 +344,29 @@ const TripDetails: React.FC = () => {
     }
   };
 
+  const handleDownloadPdf = async () => {
+    if (!trip) return;
+    try {
+      const blob = await generatePdf(trip.id);
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `${trip.title || "trip"}.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      toast.error("Failed to download PDF");
+    }
+  };
+
   return (
     <div className="bg-white rounded-xl shadow-md p-6 space-y-4">
       {/* Title and rating */}
       <div className="flex items-center justify-between flex-wrap gap-4">
         {/* Leva strana: Naslov */}
-        <div className="flex-1 items-center gap-2">
+        <div className="flex items-center gap-2">
           <H1>{trip.title}</H1>
 
           {trip.status === "Completed" && (
@@ -357,6 +375,13 @@ const TripDetails: React.FC = () => {
               <span className="ml-1 text-base text-black">
                 {trip.rating.rate?.toFixed(2) ?? "N/A"}
               </span>
+              <button
+                onClick={handleDownloadPdf}
+                className="ml-4 p-2 rounded-full bg-amber-800 text-white hover:bg-amber-600 transition-colors duration-200 flex items-center justify-center"
+                title="Download PDF"
+              >
+                <Download size={20} />
+              </button>
             </div>
           )}
         </div>

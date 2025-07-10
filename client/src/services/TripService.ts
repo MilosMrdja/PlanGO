@@ -20,7 +20,7 @@ export const getAll = async (filter: {
   if (filter.Rate != null) filterQ.Rate = filter.Rate.toString();
 
   const query = new URLSearchParams(filterQ).toString();
-  console.log(query);
+  //console.log(query);
   const reposnse = await apiCall(`api/trips?${query}`, {
     method: "GET",
   });
@@ -32,6 +32,19 @@ export const getById = async (id: string | number) => {
     method: "GET",
   });
   return response.data;
+};
+
+export const generatePdf = async (id: string | number): Promise<Blob> => {
+  return await apiCall(
+    `api/trips/${id}/pdf`,
+    {
+      method: "GET",
+      headers: {
+        Accept: "application/pdf",
+      },
+    },
+    true
+  );
 };
 
 export const createTrip = async (tripData: { title: string }) => {

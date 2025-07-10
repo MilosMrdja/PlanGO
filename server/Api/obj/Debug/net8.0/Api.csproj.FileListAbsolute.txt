@@ -309,3 +309,8 @@ C:\Users\milos\Desktop\PlanGo App\server\Api\obj\Debug\net8.0\Api.pdb
 C:\Users\milos\Desktop\PlanGo App\server\Api\obj\Debug\net8.0\Api.genruntimeconfig.cache
 C:\Users\milos\Desktop\PlanGo App\server\Api\obj\Debug\net8.0\ref\Api.dll
 C:\Users\milos\Desktop\PlanGo App\server\Api\obj\Debug\net8.0\Api.sourcelink.json
+C:\Users\milos\Desktop\PlanGo App\server\Api\bin\Debug\net8.0\PdfSharpCore.dll
+C:\Users\milos\Desktop\PlanGo App\server\Api\bin\Debug\net8.0\ICSharpCode.SharpZipLib.dll
+C:\Users\milos\Desktop\PlanGo App\server\Api\bin\Debug\net8.0\SixLabors.Fonts.dll
+C:\Users\milos\Desktop\PlanGo App\server\Api\bin\Debug\net8.0\SixLabors.ImageSharp.dll
+C:\Users\milos\Desktop\PlanGo App\server\Api\bin\Debug\net8.0\de\PdfSharpCore.resources.dll

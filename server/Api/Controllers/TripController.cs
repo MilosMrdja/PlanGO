@@ -82,6 +82,15 @@ namespace Api.Controllers
 
             return Ok(new ApiResponse<TripResponse>(response));
         }
-        
+        [HttpGet("{id}/pdf")]
+        public async Task<IActionResult> GeneratePdf(int id)
+        {
+                
+
+            var (fileName,pdfBytes) = await _tripService.GenerateTripPdfAsync(id);
+
+            return File(pdfBytes, "application/pdf",fileName);
+        }
+
     }
 }

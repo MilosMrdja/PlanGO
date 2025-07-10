@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "kmOfPVdPYxaT4z/xh5B3NCMsblxeiPnv+f3qd4I95kphikH3a46T3yjl7hgoUV3rN9jYwosIAiN6hg/u11WxQQ==",
+  "dgSpecHash": "X5/5li+YFVOzlQcDpo8Qd3tSB9STZWo8JjB1A0Tk8yc0GGGYW44NmMR07ZwRmYtMd5w3FAYP59t89DlJm9M5Jg==",
   "success": true,
   "projectFilePath": "C:\\Users\\milos\\Desktop\\PlanGo App\\server\\Application\\Application.csproj",
   "expectedPackageFiles": [
@@ -17,6 +17,10 @@
     "C:\\Users\\milos\\.nuget\\packages\\microsoft.identitymodel.logging\\7.0.3\\microsoft.identitymodel.logging.7.0.3.nupkg.sha512",
     "C:\\Users\\milos\\.nuget\\packages\\microsoft.identitymodel.tokens\\7.0.3\\microsoft.identitymodel.tokens.7.0.3.nupkg.sha512",
     "C:\\Users\\milos\\.nuget\\packages\\nettopologysuite\\2.6.0\\nettopologysuite.2.6.0.nupkg.sha512",
+    "C:\\Users\\milos\\.nuget\\packages\\pdfsharpcore\\1.3.67\\pdfsharpcore.1.3.67.nupkg.sha512",
+    "C:\\Users\\milos\\.nuget\\packages\\sharpziplib\\1.4.2\\sharpziplib.1.4.2.nupkg.sha512",
+    "C:\\Users\\milos\\.nuget\\packages\\sixlabors.fonts\\1.0.0-beta17\\sixlabors.fonts.1.0.0-beta17.nupkg.sha512",
+    "C:\\Users\\milos\\.nuget\\packages\\sixlabors.imagesharp\\1.0.4\\sixlabors.imagesharp.1.0.4.nupkg.sha512",
     "C:\\Users\\milos\\.nuget\\packages\\system.identitymodel.tokens.jwt\\7.0.3\\system.identitymodel.tokens.jwt.7.0.3.nupkg.sha512",
     "C:\\Users\\milos\\.nuget\\packages\\system.text.encodings.web\\8.0.0\\system.text.encodings.web.8.0.0.nupkg.sha512"
   ],
