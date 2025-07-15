@@ -101,7 +101,7 @@ namespace Application.Services
 
             if(tripActivity.Status != Domain.Enums.TripActivityStatus.Planned) { throw new Exception("" +
                 "Trip activity must be planned"); }
-            if(await _tripActivityRepository.GetCountActiveActivities(id) > 0)
+            if(await _tripActivityRepository.GetCountActiveActivities(trip.Id) > 0)
             {
                 throw new Exception("Trip must have one trip activity active maximum");
             }

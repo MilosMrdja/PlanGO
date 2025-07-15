@@ -215,7 +215,7 @@ namespace Application.Services
 
         public async Task<List<TripResponse>> GetAll(TripFilterRequest request)
         {
-            List<Trip> trips = await _tripRepository.Filter(request.Title, request.Status, request.StartDate, request.EndDate, request.Rate, int.Parse(_authService.GetCurrentUserId()));
+            List<Trip> trips = await _tripRepository.Filter(request.Title, request.Status, request.StartDate, request.EndDate, request.RateMin, request.RateMax == 0? 5 : request.RateMax, int.Parse(_authService.GetCurrentUserId()));
 
             return trips.Select(t => _tripMapper.toResponseDTO(t)).ToList();
 

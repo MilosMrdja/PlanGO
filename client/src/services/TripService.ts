@@ -9,16 +9,21 @@ export const getAll = async (filter: {
   Status?: TripStatus;
   StartDate?: string;
   EndDate?: string;
-  Rate?: number;
+  RateMin?: number;
+  RateMax?: number;
 }): Promise<TripCard[]> => {
   const filterQ: Record<string, string> = {};
 
   if (filter.Title != null) filterQ.Title = filter.Title;
   if (filter.Status != null) filterQ.Status = filter.Status.toString();
-  if (filter.StartDate != null) filterQ.StartDate = filter.StartDate;
-  if (filter.EndDate != null) filterQ.EndDate = filter.EndDate;
-  if (filter.Rate != null) filterQ.Rate = filter.Rate.toString();
+  if (filter.StartDate != null)
+    filterQ.StartDate = new Date(filter.StartDate).toISOString();
+  if (filter.EndDate != null)
+    filterQ.EndDate = new Date(filter.EndDate).toISOString();
+  if (filter.RateMin != null) filterQ.RateMin = filter.RateMin.toString();
+  if (filter.RateMax != null) filterQ.RateMax = filter.RateMax.toString();
 
+  console.log(filterQ);
   const query = new URLSearchParams(filterQ).toString();
   //console.log(query);
   const reposnse = await apiCall(`api/trips?${query}`, {

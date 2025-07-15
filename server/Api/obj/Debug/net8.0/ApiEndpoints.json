@@ -381,7 +381,12 @@
         "IsRequired": false
       },
       {
-        "Name": "Rate",
+        "Name": "RateMin",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "RateMax",
         "Type": "System.Int32",
         "IsRequired": false
       }

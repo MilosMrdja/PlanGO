@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { TripStatus } from "../types/enums/TripStatus";
+import { UndoIcon } from "lucide-react";
 
 interface FilterModalProps {
   onClose: () => void;
@@ -7,14 +8,16 @@ interface FilterModalProps {
     Status?: TripStatus;
     StartDate?: string;
     EndDate?: string;
-    Rate?: number;
+    RateMin?: number;
+    RateMax?: number;
   }) => void;
   onReset: () => void;
   initialFilters?: {
     Status?: TripStatus;
     StartDate?: string;
     EndDate?: string;
-    Rate?: number;
+    RateMin?: number;
+    RateMax?: number;
   };
 }
 
@@ -29,14 +32,24 @@ const FilterModal: React.FC<FilterModalProps> = ({
   );
   const [startDate, setStartDate] = useState(initialFilters?.StartDate || "");
   const [endDate, setEndDate] = useState(initialFilters?.EndDate || "");
-  const [rate, setRate] = useState(initialFilters?.Rate?.toString() || "");
+  const [rateMin, setRateMin] = useState(
+    initialFilters?.RateMin?.toString() || ""
+  );
+  const [ratemax, setRateMax] = useState(
+    initialFilters?.RateMax?.toString() || ""
+  );
+  const [rateMaxError, setRateMaxError] = useState("");
+  const [rateMinError, setRateMinError] = useState("");
+  const [startDateError, setStartDateError] = useState("");
+  const [endDateError, setEndDateError] = useState("");
 
   const handleApply = () => {
     onApplyFilter({
       Status: status || undefined,
       StartDate: startDate || undefined,
       EndDate: endDate || undefined,
-      Rate: rate ? Number(rate) : undefined,
+      RateMin: rateMin ? Number(rateMin) : undefined,
+      RateMax: ratemax ? Number(ratemax) : undefined,
     });
     onClose();
   };
@@ -45,9 +58,61 @@ const FilterModal: React.FC<FilterModalProps> = ({
     setStatus("");
     setStartDate("");
     setEndDate("");
-    setRate("");
+    setRateMin("");
+    setRateMax("");
     onReset();
     onClose();
+  };
+
+  const handleRateMaxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = Number(e.target.value);
+    const minValue = rateMin === "" ? 1 : Number(rateMin);
+    setRateMax(value.toString());
+    if (value >= minValue) {
+      setRateMaxError("");
+    } else {
+      setRateMaxError("Max rating cannot be less than Min rating");
+    }
+  };
+
+  const handleRateMinChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = Number(e.target.value);
+    const maxValue = ratemax === "" ? 5 : Number(ratemax);
+    setRateMin(value.toString());
+    if (value <= maxValue) {
+      setRateMinError("");
+    } else {
+      setRateMinError("Min rate cannot be greater than Max rating");
+    }
+  };
+
+  const handleStartDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = new Date(e.target.value);
+    setStartDate(e.target.value);
+
+    const endDateValue = endDate
+      ? new Date(endDate)
+      : new Date("9999-12-31T23:59");
+
+    if (value <= endDateValue) {
+      setStartDateError("");
+    } else {
+      setStartDateError("Start date must be before or equal to end date");
+    }
+  };
+
+  const handleEndDataChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = new Date(e.target.value);
+    setEndDate(e.target.value);
+
+    const startDateValue = startDate
+      ? new Date(startDate)
+      : new Date("0001-01-01T00:01");
+    if (value >= startDateValue) {
+      setEndDateError("");
+    } else {
+      setEndDateError("End date must be after or equeal to start date");
+    }
   };
 
   return (
@@ -83,10 +148,13 @@ const FilterModal: React.FC<FilterModalProps> = ({
             <input
               type="date"
               value={startDate}
-              onChange={(e) => setStartDate(e.target.value)}
+              onChange={handleStartDateChange}
               className="w-full px-3 py-2 border rounded-lg"
             />
           </div>
+          {startDateError && (
+            <p className="text-red-500 text-sm mt-1">{startDateError}</p>
+          )}
           <div>
             <label className="block text-gray-700 font-medium mb-1">
               End Date
@@ -94,26 +162,56 @@ const FilterModal: React.FC<FilterModalProps> = ({
             <input
               type="date"
               value={endDate}
-              onChange={(e) => setEndDate(e.target.value)}
+              onChange={handleEndDataChange}
               className="w-full px-3 py-2 border rounded-lg"
             />
           </div>
+          {endDateError && (
+            <p className="text-red-500 text-sm mt-1">{endDateError}</p>
+          )}
           <div>
-            <label className="block text-gray-700 font-medium mb-1">Rate</label>
+            <label className="block text-gray-700 font-medium mb-1">
+              Rate Min
+            </label>
             <input
               type="number"
               min={1}
               max={5}
-              value={rate}
-              onChange={(e) => setRate(e.target.value)}
+              value={rateMin}
+              onChange={handleRateMinChange}
               className="w-full px-3 py-2 border rounded-lg"
             />
           </div>
+          {rateMinError && (
+            <p className="text-red-500 text-sm mt-1">{rateMinError}</p>
+          )}
+          <div>
+            <label className="block text-gray-700 font-medium mb-1">
+              Rate Max
+            </label>
+            <input
+              type="number"
+              min={1}
+              max={5}
+              value={ratemax}
+              onChange={handleRateMaxChange}
+              className="w-full px-3 py-2 border rounded-lg"
+            />
+          </div>
+          {rateMaxError && (
+            <p className="text-red-500 text-sm mt-1">{rateMaxError}</p>
+          )}
         </div>
         <div className="mt-6 flex justify-end gap-2">
           <button
+            disabled={
+              rateMaxError !== "" ||
+              rateMinError !== "" ||
+              startDateError !== "" ||
+              endDateError !== ""
+            }
             onClick={handleApply}
-            className="bg-amber-800 text-white px-4 py-2 rounded-lg hover:bg-amber-600 transition-colors duration-200"
+            className="disabled:opacity-50 bg-amber-800 text-white px-4 py-2 rounded-lg hover:bg-amber-600 transition-colors duration-200"
           >
             Save
           </button>

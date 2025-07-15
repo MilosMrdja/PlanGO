@@ -16,7 +16,7 @@ namespace Infrastructure.Repositories
         {
         }
 
-        public async Task<List<Trip>> Filter(string title, TripStatus? status, DateTime? startDate, DateTime? endDate, int rate, int userId)
+        public async Task<List<Trip>> Filter(string title, TripStatus? status, DateTime? startDate, DateTime? endDate, int rateMin, int rateMax, int userId)
         {
             var query = _context.Trips.AsQueryable();
 
@@ -33,9 +33,9 @@ namespace Infrastructure.Repositories
             if (endDate != null)
                 query = query.Where(x => x.EndDate <= endDate);
 
-            if(rate != 0)
+            if(rateMin != 0)
             {
-                query = query.Where(x => x.Rating != null && x.Rating.TripId == x.Id && x.Rating.Rate >= rate);
+                query = query.Where(x => x.Rating != null && x.Rating.TripId == x.Id && x.Rating.Rate >= rateMin && x.Rating.Rate <= rateMax);
             }
             query = query.Include(x => x.Images)
                 .Include(x => x.User)

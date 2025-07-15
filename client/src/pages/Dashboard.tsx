@@ -74,7 +74,8 @@ const Dashboard: React.FC = () => {
     Status?: TripStatus;
     StartDate?: string;
     EndDate?: string;
-    Rate?: number;
+    RateMin?: number;
+    RateMax?: number;
   }) => {
     setLoading(true);
     try {
