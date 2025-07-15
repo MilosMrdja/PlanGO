@@ -74,6 +74,7 @@ const StartModal: React.FC<StartModalProps> = ({
               value={startDate}
               onChange={(e) => setStartDate(e.target.value)}
               required
+              max={today}
             />
           </div>
           {type === "activity" && (
