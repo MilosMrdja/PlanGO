@@ -14,10 +14,38 @@ import TripActivityDetails from "./ActivityDetails";
 import { TripStatus } from "../types/enums/TripStatus";
 import { Search, Filter } from "lucide-react";
 import { useAuth } from "../AuthProvider";
+import localforage from "localforage";
+
+const OFFLINE_TRIPS_KEY = "offline_trips";
+
+async function saveOfflineTrip(trip: { title: string; createdAt: string }) {
+  const trips =
+    (await localforage.getItem<{ title: string; createdAt: string }[]>(
+      OFFLINE_TRIPS_KEY
+    )) || [];
+  trips.push(trip);
+  await localforage.setItem(OFFLINE_TRIPS_KEY, trips);
+}
+
+async function getOfflineTrips() {
+  return (
+    (await localforage.getItem<{ title: string; createdAt: string }[]>(
+      OFFLINE_TRIPS_KEY
+    )) || []
+  );
+}
+
+async function clearOfflineTrips() {
+  await localforage.removeItem(OFFLINE_TRIPS_KEY);
+}
 
 const Dashboard: React.FC = () => {
+  const [isOnline, setIsOnline] = useState(navigator.onLine);
   const [showFilter, setShowFilter] = useState(false);
   const [trips, setTrips] = useState<TripCardResponse[]>([]);
+  const [offlineTrips, setOfflineTrips] = useState<
+    { title: string; createdAt: string }[]
+  >([]);
   const [loading, setLoading] = useState(true);
   const [showCreateTrip, setShowCreateTrip] = useState(false);
   const [createTripLoading, setCreateTripLoading] = useState(false);
@@ -68,6 +96,62 @@ const Dashboard: React.FC = () => {
     }
     fetchTrips();
   }, [location]);
+
+  useEffect(() => {
+    const handleOnline = () => setIsOnline(true);
+    const handleOffline = () => setIsOnline(false);
+    window.addEventListener("online", handleOnline);
+    window.addEventListener("offline", handleOffline);
+    return () => {
+      window.removeEventListener("online", handleOnline);
+      window.removeEventListener("offline", handleOffline);
+    };
+  }, []);
+
+  // Loaad offline trips when offline
+  useEffect(() => {
+    if (!isOnline) {
+      getOfflineTrips().then(setOfflineTrips);
+    }
+  }, [isOnline, showCreateTrip]);
+
+  // Create trip offline
+  const handleCreateTripOffline = async (title: string) => {
+    setCreateTripLoading(true);
+    try {
+      await saveOfflineTrip({ title, createdAt: new Date().toISOString() });
+      setShowCreateTrip(false);
+      // List of offline trips
+      getOfflineTrips().then(setOfflineTrips);
+    } catch (err: any) {
+      toast.error("Greška pri čuvanju offline tripa");
+    } finally {
+      setCreateTripLoading(false);
+    }
+  };
+
+  // SYnc offline trips when back to online
+  useEffect(() => {
+    if (isOnline) {
+      (async () => {
+        const offline = await getOfflineTrips();
+        if (offline.length > 0) {
+          for (const trip of offline) {
+            try {
+              await createTrip({ title: trip.title });
+            } catch (err) {
+              toast.error(`Trip: ${trip.title} is not created`);
+            }
+          }
+          await clearOfflineTrips();
+          setOfflineTrips([]);
+          // refresh trips
+          const data = await getAllTrips({});
+          setTrips(data);
+        }
+      })();
+    }
+  }, [isOnline]);
 
   const filterTrips = async (filter: {
     Title?: string;
@@ -131,12 +215,23 @@ const Dashboard: React.FC = () => {
             Home
           </Link>
         </div>
-        <button
-          onClick={handleLogout}
-          className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors duration-200"
-        >
-          Log out
-        </button>
+        <div className="flex items-center gap-4">
+          <span
+            className={`px-3 py-1 rounded-full text-xs font-semibold ${
+              isOnline
+                ? "bg-green-200 text-green-800"
+                : "bg-red-200 text-red-800"
+            }`}
+          >
+            {isOnline ? "Online" : "Offline"}
+          </span>
+          <button
+            onClick={handleLogout}
+            className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors duration-200"
+          >
+            Log out
+          </button>
+        </div>
       </nav>
       <main className="p-8">
         <Routes>
@@ -145,10 +240,7 @@ const Dashboard: React.FC = () => {
             element={
               <>
                 <div className="flex items-center w-full mb-6">
-                  {/* 1. Prazna komponenta */}
                   <div className="w-1/3"></div>
-
-                  {/* 2. Search sa dva dugmeta */}
                   <div className="w-1/3 flex items-center justify-center">
                     <input
                       type="text"
@@ -157,11 +249,13 @@ const Dashboard: React.FC = () => {
                       value={searchTitle}
                       onChange={(e) => setSearchTitle(e.target.value)}
                       onKeyDown={handleSearchKeyDown}
+                      disabled={!isOnline}
                     />
                     <button
                       onClick={handleSearch}
                       className="ml-2 p-2 rounded-full bg-amber-800 text-white hover:bg-amber-600 transition-colors duration-200 flex items-center justify-center"
                       title="Search"
+                      disabled={!isOnline}
                     >
                       <Search size={20} />
                     </button>
@@ -173,6 +267,7 @@ const Dashboard: React.FC = () => {
                           : "bg-gray-200 text-gray-700 hover:bg-gray-300"
                       }`}
                       title="Filter"
+                      disabled={!isOnline}
                     >
                       <Filter size={20} />
                       {isAnyFilterApplied && (
@@ -182,24 +277,40 @@ const Dashboard: React.FC = () => {
                       )}
                     </button>
                   </div>
-
                   <div className="w-1/3 flex justify-end">
                     <button
                       onClick={() => setShowCreateTrip(true)}
                       className="cursor-pointer bg-green-200 rounded-full text-green-600 hover:text-green-800 p-2"
-                      title="Add Activity"
+                      title="Add Trip"
                     >
                       <Plus size={24} />
                     </button>
                   </div>
                 </div>
-
+                {/* Offline or online trips */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
-                  {trips.map((trip) => (
-                    <TripCard key={trip.id} trip={trip} />
-                  ))}
+                  {isOnline
+                    ? trips.map((trip) => (
+                        <TripCard key={trip.id} trip={trip} />
+                      ))
+                    : offlineTrips.map((trip, idx) => (
+                        <div
+                          key={idx}
+                          className="bg-white rounded-lg shadow p-6 flex flex-col gap-2 border-2 border-dashed border-amber-400 opacity-80"
+                        >
+                          <span className="font-bold text-lg text-amber-700">
+                            {trip.title}
+                          </span>
+                          <span className="text-xs text-gray-500">
+                            (Offline trip)
+                          </span>
+                          <span className="text-xs text-gray-400">
+                            {new Date(trip.createdAt).toLocaleString()}
+                          </span>
+                        </div>
+                      ))}
                 </div>
-                {showFilter && (
+                {showFilter && isOnline && (
                   <FilterModal
                     onClose={() => setShowFilter(false)}
                     onApplyFilter={handleApplyFilter}
@@ -220,7 +331,7 @@ const Dashboard: React.FC = () => {
       </main>
       <CreateModal
         show={showCreateTrip}
-        onSave={handleCreateTrip}
+        onSave={isOnline ? handleCreateTrip : handleCreateTripOffline}
         onCancel={() => setShowCreateTrip(false)}
         loading={createTripLoading}
         isCreate={true}
