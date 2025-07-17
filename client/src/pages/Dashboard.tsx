@@ -8,31 +8,26 @@ import { Routes, Route, Link, useNavigate } from "react-router-dom";
 import TripDetails from "./TripDetails";
 import CreateModal from "../components/CreateModal";
 import { createTrip } from "../services/TripService";
-import { Plus } from "lucide-react";
+import { Plus, TreePalm } from "lucide-react";
 import { useLocation } from "react-router-dom";
 import TripActivityDetails from "./ActivityDetails";
 import { TripStatus } from "../types/enums/TripStatus";
 import { Search, Filter } from "lucide-react";
 import { useAuth } from "../AuthProvider";
 import localforage from "localforage";
+import { TripOffline } from "../types/TripOffline";
 
 const OFFLINE_TRIPS_KEY = "offline_trips";
 
-async function saveOfflineTrip(trip: { title: string; createdAt: string }) {
+async function saveOfflineTrip(trip: TripOffline) {
   const trips =
-    (await localforage.getItem<{ title: string; createdAt: string }[]>(
-      OFFLINE_TRIPS_KEY
-    )) || [];
+    (await localforage.getItem<TripOffline[]>(OFFLINE_TRIPS_KEY)) || [];
   trips.push(trip);
   await localforage.setItem(OFFLINE_TRIPS_KEY, trips);
 }
 
 async function getOfflineTrips() {
-  return (
-    (await localforage.getItem<{ title: string; createdAt: string }[]>(
-      OFFLINE_TRIPS_KEY
-    )) || []
-  );
+  return (await localforage.getItem<TripOffline[]>(OFFLINE_TRIPS_KEY)) || [];
 }
 
 async function clearOfflineTrips() {
@@ -43,9 +38,7 @@ const Dashboard: React.FC = () => {
   const [isOnline, setIsOnline] = useState(navigator.onLine);
   const [showFilter, setShowFilter] = useState(false);
   const [trips, setTrips] = useState<TripCardResponse[]>([]);
-  const [offlineTrips, setOfflineTrips] = useState<
-    { title: string; createdAt: string }[]
-  >([]);
+  const [offlineTrips, setOfflineTrips] = useState<TripOffline[]>([]);
   const [loading, setLoading] = useState(true);
   const [showCreateTrip, setShowCreateTrip] = useState(false);
   const [createTripLoading, setCreateTripLoading] = useState(false);
@@ -110,35 +103,67 @@ const Dashboard: React.FC = () => {
 
   // Loaad offline trips when offline
   useEffect(() => {
-    if (!isOnline) {
-      getOfflineTrips().then(setOfflineTrips);
+    async function fetchData() {
+      if (!isOnline) {
+        const existingTrips: TripOffline[] = [];
+        for (var trip of trips) {
+          existingTrips.push({
+            title: trip.title,
+            createdAt: trip.startDate
+              ? new Date(trip.startDate).toLocaleDateString()
+              : "Planned trip",
+            isSaved: true,
+          });
+        }
+        const offlineTrips = await getOfflineTrips();
+        const combinedTrips = [...existingTrips, ...offlineTrips];
+        setOfflineTrips(combinedTrips);
+      }
     }
-  }, [isOnline, showCreateTrip]);
+    fetchData();
+  }, [isOnline, showCreateTrip, trips]);
 
+  const checkTitle = (title: string): boolean => {
+    for (var tripO of offlineTrips) {
+      if (tripO.title === title) {
+        toast.error(`Trip with title ${title} already exist`);
+        return false;
+      }
+    }
+    return true;
+  };
   // Create trip offline
   const handleCreateTripOffline = async (title: string) => {
     setCreateTripLoading(true);
     try {
-      await saveOfflineTrip({ title, createdAt: new Date().toISOString() });
+      if (!checkTitle(title)) return;
+      await saveOfflineTrip({
+        title,
+        createdAt: new Date().toDateString(),
+        isSaved: false,
+      });
       setShowCreateTrip(false);
+      toast.success("You successfully created trip");
       // List of offline trips
       getOfflineTrips().then(setOfflineTrips);
     } catch (err: any) {
-      toast.error("Greška pri čuvanju offline tripa");
+      toast.error("Error fetching offline trips");
     } finally {
       setCreateTripLoading(false);
     }
   };
 
-  // SYnc offline trips when back to online
+  // Sync offline trips when back to online
   useEffect(() => {
     if (isOnline) {
+      toast.success("Back online");
       (async () => {
         const offline = await getOfflineTrips();
         if (offline.length > 0) {
           for (const trip of offline) {
             try {
               await createTrip({ title: trip.title });
+              toast.success(`Trip: ${trip.title} is created`);
             } catch (err) {
               toast.error(`Trip: ${trip.title} is not created`);
             }
@@ -216,15 +241,11 @@ const Dashboard: React.FC = () => {
           </Link>
         </div>
         <div className="flex items-center gap-4">
-          <span
-            className={`px-3 py-1 rounded-full text-xs font-semibold ${
-              isOnline
-                ? "bg-green-200 text-green-800"
-                : "bg-red-200 text-red-800"
-            }`}
-          >
-            {isOnline ? "Online" : "Offline"}
-          </span>
+          {!isOnline && (
+            <span className="px-3 py-1 rounded-full text-xs font-semibold bg-red-200 text-red-800">
+              Offline
+            </span>
+          )}
           <button
             onClick={handleLogout}
             className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors duration-200"
@@ -296,16 +317,20 @@ const Dashboard: React.FC = () => {
                     : offlineTrips.map((trip, idx) => (
                         <div
                           key={idx}
-                          className="bg-white rounded-lg shadow p-6 flex flex-col gap-2 border-2 border-dashed border-amber-400 opacity-80"
+                          className={`rounded-lg shadow p-6 flex flex-col gap-2 opacity-80 ${
+                            trip.isSaved
+                              ? "bg-green-100 border-2 border-green-500"
+                              : "bg-white border-2 border-dashed border-amber-400"
+                          }`}
                         >
                           <span className="font-bold text-lg text-amber-700">
                             {trip.title}
                           </span>
                           <span className="text-xs text-gray-500">
-                            (Offline trip)
+                            {trip.isSaved ? "Created trip" : "Offline trip"}
                           </span>
                           <span className="text-xs text-gray-400">
-                            {new Date(trip.createdAt).toLocaleString()}
+                            {trip.createdAt}
                           </span>
                         </div>
                       ))}
