@@ -24,6 +24,7 @@ namespace Application.DTOs
         public UserResponse User { get; set; }
         public RatingResponse Rating { get; set; }
         public List<TripActivityResponse> TripActivities { get; set; }
+        public bool IsArchive {  get; set; }
        
     }
 }

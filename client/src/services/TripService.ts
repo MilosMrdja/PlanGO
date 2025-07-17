@@ -23,10 +23,17 @@ export const getAll = async (filter: {
   if (filter.RateMin != null) filterQ.RateMin = filter.RateMin.toString();
   if (filter.RateMax != null) filterQ.RateMax = filter.RateMax.toString();
 
-  console.log(filterQ);
+  //console.log(filterQ);
   const query = new URLSearchParams(filterQ).toString();
   //console.log(query);
   const reposnse = await apiCall(`api/trips?${query}`, {
+    method: "GET",
+  });
+  return reposnse.data;
+};
+
+export const getArchivedAll = async () => {
+  const reposnse = await apiCall(`api/trips/archived`, {
     method: "GET",
   });
   return reposnse.data;
@@ -37,6 +44,17 @@ export const getById = async (id: string | number) => {
     method: "GET",
   });
   return response.data;
+};
+
+export const archiveTrip = async (id: string) => {
+  return await apiCall(`api/trips/${id}/archive`, {
+    method: "PUT",
+  });
+};
+export const unarchiveTrip = async (id: string) => {
+  return await apiCall(`api/trips/${id}/unarchive`, {
+    method: "PUT",
+  });
 };
 
 export const generatePdf = async (id: string | number): Promise<Blob> => {

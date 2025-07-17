@@ -16,6 +16,8 @@ import { Search, Filter } from "lucide-react";
 import { useAuth } from "../AuthProvider";
 import localforage from "localforage";
 import { TripOffline } from "../types/TripOffline";
+import Navbar from "../components/Navbar";
+import ArchivedTrips from "./ArchivedTrips";
 
 const OFFLINE_TRIPS_KEY = "offline_trips";
 
@@ -229,31 +231,7 @@ const Dashboard: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      {/* Navbar */}
-      <nav className="w-full flex items-center justify-between bg-white shadow px-8 py-4 mb-8">
-        <div className="flex items-center gap-6">
-          <span className="text-2xl font-bold text-amber-700">Plan & Go</span>
-          <Link
-            to="/dashboard"
-            className="text-lg text-gray-700 hover:text-amber-700 font-medium"
-          >
-            Home
-          </Link>
-        </div>
-        <div className="flex items-center gap-4">
-          {!isOnline && (
-            <span className="px-3 py-1 rounded-full text-xs font-semibold bg-red-200 text-red-800">
-              Offline
-            </span>
-          )}
-          <button
-            onClick={handleLogout}
-            className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors duration-200"
-          >
-            Log out
-          </button>
-        </div>
-      </nav>
+      <Navbar isOnline={isOnline} onLogout={handleLogout} />
       <main className="p-8">
         <Routes>
           <Route
@@ -352,6 +330,7 @@ const Dashboard: React.FC = () => {
           />
           <Route path="trips/:id" element={<TripDetails />} />
           <Route path="trip-activities/:id" element={<TripActivityDetails />} />
+          <Route path="archived" element={<ArchivedTrips />} />
         </Routes>
       </main>
       <CreateModal

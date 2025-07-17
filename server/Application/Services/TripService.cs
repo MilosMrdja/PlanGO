@@ -243,7 +243,36 @@ namespace Application.Services
             var fileName = $"Trip-{trip.Title}.pdf";
             return (fileName, pdfBytes);
         }
+        public async Task<bool> ArchiveTrip(int id)
+        {
+            Trip trip = await _tripRepository.GetByIdAsync(id) ?? throw new Exception("Trip not found");
+            if (trip.Status != TripStatus.Completed) throw new Exception("Trip can not be archived while it is not completed trip");
+            trip.IsArchive = true;
+            if(await _tripRepository.UpdateAsync(trip) != null)
+            {
+                return true;
+            }
+            return false;
+            
+        }
+        public async Task<bool> UnarchiveTrip(int id)
+        {
+            Trip trip = await _tripRepository.GetByIdAsync(id) ?? throw new Exception("Trip not found");
+            if (trip.IsArchive == false) { throw new Exception("Trip is already unarchived"); }
+            trip.IsArchive = false;
+            if (await _tripRepository.UpdateAsync(trip) != null)
+            {
+                return true;
+            }
+            return false;
 
+        }
 
+        public async Task<List<TripResponse>> getArchived()
+        {
+            var userId = _authService.GetCurrentUserId() ?? throw new Exception("Error occured - current user");
+            List<Trip> trips = await _tripRepository.GetArchived(int.Parse(userId));
+            return trips.Select(t => _tripMapper.toResponseDTO(t)).ToList();
+        }
     }
 }

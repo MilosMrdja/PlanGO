@@ -19,4 +19,5 @@ export interface TripResponse {
     FirstName: string;
     LastName: string;
   };
+  isArchive: boolean;
 }

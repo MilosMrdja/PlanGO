@@ -20,7 +20,7 @@ namespace Infrastructure.Repositories
         {
             var query = _context.Trips.AsQueryable();
 
-            query = query.Where(x => x.UserId == userId);
+            query = query.Where(x => x.UserId == userId && x.IsArchive == false);
 
             if (!string.IsNullOrWhiteSpace(title))
                 query = query.Where(x => x.Title.ToLower().Contains(title.ToLower()));
@@ -43,6 +43,11 @@ namespace Infrastructure.Repositories
                 .Include(x => x.Location)
                 .Include(x => x.TripActivities);
             return await query.ToListAsync();
+        }
+
+        public async Task<List<Trip>> GetArchived(int userId)
+        {
+            return await _context.Trips.Where(x => x.UserId == userId && x.IsArchive == true).ToListAsync();
         }
 
         public async Task<Trip?> GetByTitle(string title, int userId)

@@ -25,6 +25,11 @@
                 .HasIndex(e => new { e.Title, e.UserId })
                 .IsUnique();
 
+            modelBuilder.Entity<Trip>()
+                .Property(t => t.IsArchive)
+                .HasDefaultValue(false);
+                
+
             // User - Account
             modelBuilder.Entity<User>()
              .HasOne(u => u.Account)

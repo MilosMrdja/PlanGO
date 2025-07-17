@@ -8,6 +8,8 @@ import {
   startTrip,
   finishTrip,
   generatePdf,
+  archiveTrip,
+  unarchiveTrip,
 } from "../services/TripService";
 import {
   createTripActivity,
@@ -20,7 +22,15 @@ import ImageGallery from "../components/ImageGallery";
 import Map from "../components/Map";
 import H1 from "../components/UI/H1";
 import { TripStatus } from "../types/enums/TripStatus";
-import { CalendarDays, Plus, Star, Trash2, Download } from "lucide-react";
+import {
+  CalendarDays,
+  Plus,
+  Star,
+  Trash2,
+  Download,
+  Archive,
+  ArchiveRestore,
+} from "lucide-react";
 import TextInput from "../components/UI/TextInput";
 import { TripActivityStatus } from "../types/enums/TripActivityStatus";
 import CreateModal from "../components/CreateModal";
@@ -59,6 +69,7 @@ const TripDetails: React.FC = () => {
     longitude: number;
   } | null>(null);
   const [createActivityLoading, setCreateActivityLoading] = useState(false);
+  const [archiveLoading, setArchiveLoading] = useState(false);
 
   const [showStartTripModal, setShowStartTripModal] = useState(false);
   const [startTripLoading, setStartTripLoading] = useState(false);
@@ -87,7 +98,7 @@ const TripDetails: React.FC = () => {
       try {
         if (!id) return;
         const data = await getById(id);
-        //console.log(data);
+        console.log(data);
         setTrip(data[0]);
         if (data[0].status === TripStatus.InProgress)
           setStatusColor("bg-blue-200 text-blue-800");
@@ -360,6 +371,33 @@ const TripDetails: React.FC = () => {
       toast.error("Failed to download PDF");
     }
   };
+  const handleUnarchiveTrip = async () => {
+    setArchiveLoading(true);
+    try {
+      await unarchiveTrip(trip.id.toString());
+      const data = await getById(trip.id);
+      setTrip(data[0]);
+      toast.success("Trip unarchived");
+    } catch (err) {
+      toast.error("Failed to unarchive trip");
+    } finally {
+      setArchiveLoading(false);
+    }
+  };
+
+  const handleArchiveTrip = async () => {
+    setArchiveLoading(true);
+    try {
+      await archiveTrip(trip.id.toString());
+      const data = await getById(trip.id);
+      setTrip(data[0]);
+      toast.success("Trip archived");
+    } catch (err) {
+      toast.error("Failed to archive trip");
+    } finally {
+      setArchiveLoading(false);
+    }
+  };
 
   return (
     <div className="bg-white rounded-xl shadow-md p-6 space-y-4">
@@ -368,6 +406,25 @@ const TripDetails: React.FC = () => {
         {/* Leva strana: Naslov */}
         <div className="flex items-center gap-2">
           <H1>{trip.title}</H1>
+          {/* Arhiviranje/unarhiviranje samo za completed tripove */}
+          {trip.status === TripStatus.Completed && !trip.isArchive && (
+            <button
+              className="ml-4 p-2 rounded-full bg-amber-800 text-white hover:bg-green-600 transition-colors duration-200 flex items-center justify-center"
+              title="Archive trip"
+              onClick={handleArchiveTrip}
+            >
+              <Archive size={20} />
+            </button>
+          )}
+          {trip.status === TripStatus.Completed && trip.isArchive && (
+            <button
+              className="ml-4 p-2 rounded-full bg-amber-800 text-white hover:bg-red-600 transition-colors duration-200 flex items-center justify-center"
+              title="Unarchive trip"
+              onClick={handleUnarchiveTrip}
+            >
+              <ArchiveRestore size={20} />
+            </button>
+          )}
 
           {trip.status === "Completed" && (
             <div className="flex items-center text-amber-500 text-xl font-semibold">

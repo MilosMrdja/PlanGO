@@ -37,5 +37,6 @@ namespace Domain.Entities
         public User User { get; set; }
 
         public ICollection<TripActivity> TripActivities { get; set; } = new List<TripActivity>();
+        public bool IsArchive {  get; set; }
     }
 }

@@ -11,5 +11,6 @@ namespace Application.Interfaces
         Task<Trip?> GetWithImages(int id);
         Task<int> GetCountStartedTrip(int userId);
         Task<List<Trip>> Filter(string title,TripStatus? status, DateTime? startDate,DateTime? endDate, int rate, int rateMax, int userId);
+        Task<List<Trip>> GetArchived(int userId);
     }
 }

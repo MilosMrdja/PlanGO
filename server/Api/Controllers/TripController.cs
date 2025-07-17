@@ -92,5 +92,26 @@ namespace Api.Controllers
             return File(pdfBytes, "application/pdf",fileName);
         }
 
+        [HttpPut("{id}/archive")]
+        public async Task<IActionResult> ArchiveTrip(int id)
+        {
+            var response = await _tripService.ArchiveTrip(id);
+            return Ok(new ApiResponse<bool>(response));
+        }
+
+        [HttpPut("{id}/unarchive")]
+        public async Task<IActionResult> UnarchiveTrip(int id)
+        {
+            var response = await _tripService.UnarchiveTrip(id);
+            return Ok(new ApiResponse<bool>(response));
+        }
+
+        [HttpGet("archived")]
+        public async Task<IActionResult> getArchived()
+        {
+            var response = await _tripService.getArchived();
+            return Ok(new ApiResponse<List<TripResponse>>(response));
+        }
+
     }
 }
