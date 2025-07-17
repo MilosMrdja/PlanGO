@@ -1,5 +1,5 @@
 import React, { act, use, useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useParams, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import Button from "../components/UI/Button";
 import ImageGallery from "../components/ImageGallery";
@@ -31,7 +31,8 @@ const TripActivityDetails: React.FC = () => {
   const [activity, setActivity] = useState<any | null>(null);
   const [loading, setLoading] = useState(true);
   const location = useLocation();
-  const state = location.state as { isTripCompleted: boolean };
+  const [searchParams] = useSearchParams();
+  const isTripComplete = searchParams.get("isTripComplete") === "true";
 
   // start modal
   const [showStartModal, setShowStartModal] = useState(false);
@@ -65,7 +66,7 @@ const TripActivityDetails: React.FC = () => {
         const response = await getById(id);
         //console.log(response);
         setActivity(response);
-        setTripStatus(state.isTripCompleted);
+        console.log(isTripComplete);
       } catch (err: any) {
         toast.error(err.message || "Api failed");
       } finally {
@@ -215,7 +216,7 @@ const TripActivityDetails: React.FC = () => {
               onStart={() => setShowStartModal(true)}
               onFinish={() => setShowCompletetModal(true)}
               onCancel={() => setShowCancelModal(true)}
-              tripStatus={tripStatus}
+              tripStatus={isTripComplete}
             />
           </div>
           <div className="flex items-center gap-4 flex-1 justify-end text-sm text-gray-600">

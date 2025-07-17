@@ -98,7 +98,7 @@ const TripDetails: React.FC = () => {
       try {
         if (!id) return;
         const data = await getById(id);
-        console.log(data);
+        //console.log(data);
         setTrip(data[0]);
         if (data[0].status === TripStatus.InProgress)
           setStatusColor("bg-blue-200 text-blue-800");

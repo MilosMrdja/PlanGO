@@ -38,8 +38,7 @@ const TripActivitiesList: React.FC<Props> = ({
         >
           {/* Left: title + link */}
           <Link
-            to={`/dashboard/trip-activities/${activity.id}`}
-            state={{ isTripComplete: isCompleted }}
+            to={`/dashboard/trip-activities/${activity.id}?isTripComplete=${isCompleted}`}
             className="text-amber-800 font-semibold hover:underline"
           >
             {activity.title}
